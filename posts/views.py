@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 from .models import Post
@@ -8,10 +8,13 @@ def posts_create(request):
     return HttpResponse("<h1>Crear</h1>")
 
 def posts_detail(request):
+	# instance = Post.objects.all()
+	instance = get_object_or_404(Post, id = 2)
 	context = {
-		"title": "Detalles"
+		"title": "Detalles del Post",
+		"instance": instance,
 	}
-	return render(request, "post_list.html", context)
+	return render(request, "post_detail.html", context)
 
 def posts_list(request):
 	queryset = Post.objects.all()
