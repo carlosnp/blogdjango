@@ -5,6 +5,10 @@
 </head>
 <body>
 	<h1> {{ title }} </h1>
-
+	{% for obj in object_list %}
+	<h2> {{ obj.title }} </h2>
+	<p> {{ obj.content }} </p>
+	<h5> {{ obj.author }} </h5>
+	{% endfor %}
 </body>
 </html>
