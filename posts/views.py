@@ -12,7 +12,7 @@ def posts_detail(request):
     return HttpResponse("<h1>Detalles</h1>")
 
 def posts_list(request):
-    return HttpResponse("<h1>Lista</h1>")
+    return render(request, "index.html", {})
 
 def posts_update(request):
     return HttpResponse("<h1>Actualizar</h1>")
@@ -20,9 +20,3 @@ def posts_update(request):
 def posts_delete(request):
     return HttpResponse("<h1>Borrar</h1>")
 
-class PostsListView(ListView):
-    model = Post
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
