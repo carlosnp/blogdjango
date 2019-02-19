@@ -1,7 +1,10 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
 	 <title>{% block title %}Blog{% endblock title %}</title>
+	 <!-- <link rel="stylesheet" href="/static/css/basic.css"> -->
+	 <link rel="stylesheet" href="{% static 'css/basic.css' %}">
 	 <style> {% block style %}{% endblock style %} </style>
 </head>
 <body>
@@ -12,5 +15,6 @@
 		{% block content %}
 		{% endblock %}
 	</div>
+	<img src='{% static "img/example.jpg" %}' alt="My image">
 </body>
 </html>

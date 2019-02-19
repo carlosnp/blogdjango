@@ -18,9 +18,10 @@
 	<p>Fecha de Creación: {{ instance.timestamp }} </p>
 	<p>Fecha de Actualización: {{ instance.updated }} </p>
 	<h5> {{ instance.author }} </h5>
-
-	<a href="{% url 'posts:list' %}">Regresar</a>
-	<a href="{% url 'posts:update' id=instance.id %}">Editar</a>
-	<a href="{% url 'posts:delete' id=instance.id %}">Eliminar</a>
+	<div style="margin:0 20px;">
+		<a class="boton" href="{% url 'posts:list' %}">Regresar</a>
+		<a class="boton" href="{% url 'posts:update' id=instance.id %}">Editar</a>
+		<a class="boton" href="{% url 'posts:delete' id=instance.id %}">Eliminar</a>
+	</div>
 
 {% endblock %}

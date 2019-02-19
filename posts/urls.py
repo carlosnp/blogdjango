@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.urls import path
 
 from .views import posts_list, posts_create, posts_detail, posts_update, posts_delete
