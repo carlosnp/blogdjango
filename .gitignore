@@ -1,0 +1,5 @@
+*/__pycache__
+*.sqlite
+*.sql
+__pycache__
+posts/__pycache__
