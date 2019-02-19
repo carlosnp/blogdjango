@@ -1,6 +1,6 @@
-h1 {
+/* h1 {
     color: #180a8f;
-}
+} */
 
 h2,
 h2 a {
@@ -16,16 +16,4 @@ p {
     color: #777777;
     margin: 0 20px;
     text-align: justify;
-}
-
-.boton {
-    color: white;
-    background-color: black;
-    text-decoration: solid;
-    text-align: center;
-    border:2px solid gray;
-    border-style: outset;
-    padding: 10px;
-    display: inline-block;
-    margin: 10px 0;
 }

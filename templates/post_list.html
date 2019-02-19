@@ -4,14 +4,23 @@
 
 {% block content %}
 
-	<a href="{% url 'posts:create' %}">Crear Post</a>
-	<h1> {{ title }} </h1>
-	{% for obj in object_list %}
-	<!-- <h2>  <a href="/posts/{{obj.id}}">  {{ obj.title }} </a> </h2> -->
-	<!-- <h2>  <a href="{% url 'posts:detail' id=obj.id %}">  {{ obj.title }} </a> </h2> -->
-	<h2>  <a href="{{ obj.get_absolute_url }}">  {{ obj.title }} </a> </h2>
-	<p> {{ obj.content }} </p>
-	<h5> {{ obj.author }} </h5>
-	{% endfor %}
-
+<a href="{% url 'posts:create' %}">Crear Post</a>
+<h1> {{ title }} </h1>
+	<div class="row">
+		{% for obj in object_list %}
+			<div class="col-xs-12 col-md-6">
+				<div class="card">
+					<div class="card-body">
+						<!-- <h2>  <a href="/posts/{{obj.id}}">  {{ obj.title }} </a> </h2> -->
+						<!-- <h2>  <a href="{% url 'posts:detail' id=obj.id %}">  {{ obj.title }} </a> </h2> -->
+						<h3 class="card-title">  {{ obj.title }} <small style="color:lightslategrey"> {{ obj.timestamp|date:"D d M Y" }} </small> </h3>
+						<p class="card-text"> {{ obj.content|linebreaks|truncatechars:150 }} </p>
+						<h5> {{ obj.author }} </h5>
+						<p> <a href="{{ obj.get_absolute_url }}" class="card-link" role="button">Ver</a> </p>
+					</div>
+				</div>
+			</div>
+			<hr>
+		{% endfor %}
+	</div>
 {% endblock %}

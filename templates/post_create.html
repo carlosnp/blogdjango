@@ -9,8 +9,10 @@
 	<form action="" method="POST">
 		{% csrf_token %}
 		{{ form.as_p }}
-		<input type="submit" name="Crear Post">
-		<a class="boton" href="{% url 'posts:list' %}">Regresar</a>
+		<div class="btn-group" role="group">
+			<a class="btn btn-success" href="{% url 'posts:list' %}">Regresar</a>
+			<input type="submit" name="Crear Post" value="Guardar" class="btn btn-primary">
+		</div>
 	</form>
 
 {% endblock %}
