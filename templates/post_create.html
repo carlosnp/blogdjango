@@ -1,16 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Crear</title>
-</head>
-<body>
-	<h1>Nuevo Post</h1>
+{% extends "base.html" %}
+
+{% block title %} {{block.super}} | {{ title }} {% endblock %}
+
+{% block content %}
+
+	<h1> {{ titles }} </h1>
 	
 	<form action="" method="POST">
 		{% csrf_token %}
 		{{ form.as_p }}
 		<input type="submit" name="Crear Post">
+		<a href="{% url 'posts:list' %}">Regresar</a>
 	</form>
 
-</body>
-</html>
+{% endblock %}

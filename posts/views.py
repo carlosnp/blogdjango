@@ -14,9 +14,9 @@ def posts_create(request):
 		instance.save()
 		messages.success(request, "Felicidades creaste un Post")
 		return HttpResponseRedirect(instance.get_absolute_url())
-	else:
-		messages.error(request, "Algo salio mal, no se creo el Post")
 	context = {
+		"title": "Create Post",
+		"titles": "Crear Post",
 		"form": form
 	}
 	return render(request, template_name, context)
@@ -51,6 +51,7 @@ def posts_update(request, id=None):
     	return redirect("posts:detail", id=id)
     context = {
     	"title": instance.title,
+    	"titles": "Editar Post",
     	"instance": instance,
     	"form": form,
     }

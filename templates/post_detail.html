@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Detail</title>
-</head>
-<body>
-	
-	{% if messages %}
-	<ul class="messages">
-	    {% for message in messages %}
-	    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-	    {% endfor %}
-	</ul>
-	{% endif %}
+{% extends "base.html" %}
 
+{% block title %} {{block.super}} | Post Detail {% endblock %}
+
+<style> 
+	{% block style %}
+	h1 {
+		color: red;
+	}
+	{% endblock style %} 
+</style>
+
+{% block content %}
+	
 	<h1> {{ title }} </h1>
 	<h2> {{ instance.title }} </h2>
 	<p> {{ instance.content }} </p>
@@ -23,5 +22,5 @@
 	<a href="{% url 'posts:list' %}">Regresar</a>
 	<a href="{% url 'posts:update' id=instance.id %}">Editar</a>
 	<a href="{% url 'posts:delete' id=instance.id %}">Eliminar</a>
-</body>
-</html>
+
+{% endblock %}

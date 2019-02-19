@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>List</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %} {{block.super}} | Post Lists {% endblock %}
+
+{% block content %}
+
 	<a href="{% url 'posts:create' %}">Crear Post</a>
 	<h1> {{ title }} </h1>
 	{% for obj in object_list %}
@@ -13,5 +13,5 @@
 	<p> {{ obj.content }} </p>
 	<h5> {{ obj.author }} </h5>
 	{% endfor %}
-</body>
-</html>
+
+{% endblock %}
