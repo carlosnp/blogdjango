@@ -13,7 +13,7 @@
 					<div class="card-body">
 						<!-- <h2>  <a href="/posts/{{obj.id}}">  {{ obj.title }} </a> </h2> -->
 						<!-- <h2>  <a href="{% url 'posts:detail' id=obj.id %}">  {{ obj.title }} </a> </h2> -->
-						<h3 class="card-title">  {{ obj.title }} <small style="color:lightslategrey"> {{ obj.timestamp|date:"D d M Y" }} </small> </h3>
+						<h3 class="card-title">  {{ obj.title|upper }} <small style="color:lightslategrey"> {{ obj.timestamp|date:"D d M Y" }} </small> </h3>
 						<p class="card-text"> {{ obj.content|linebreaks|truncatechars:150 }} </p>
 						<h5> {{ obj.author }} </h5>
 						<p> <a href="{{ obj.get_absolute_url }}" class="card-link" role="button">Ver</a> </p>
@@ -23,4 +23,25 @@
 			<hr>
 		{% endfor %}
 	</div>
+	<hr>
+	<!-- Paginacion -->
+	<div class="pagination">
+		<span class="step-links">
+			{% if object_list.has_previous %}
+			<a href="?page=1">&laquo; primero</a>
+			<a href="?page={{ object_list.previous_page_number }}">anterior</a>
+			{% endif %}
+			
+			<span class="current">
+				Página {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+			</span>
+			
+			{% if object_list.has_next %}
+			<a href="?page={{ object_list.next_page_number }}">siguiente</a>
+			<a href="?page={{ object_list.paginator.num_pages }}">último &raquo;</a>
+			{% endif %}
+		</span>
+	</div>
+	<hr>
+
 {% endblock %}

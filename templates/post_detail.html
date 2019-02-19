@@ -17,9 +17,10 @@
 	<p> {{ instance.content | linebreaks }} </p>
 	<p>Fecha de Creación: {{ instance.timestamp }} </p>
 	<p>Fecha de Actualización: {{ instance.updated }} </p>
-	<h5> {{ instance.author }} </h5>
+	<h5> & {{ instance.author }} </h5>
 	<div class="btn-group" role="group">
 		<a class="btn btn-success" href="{% url 'posts:list' %}">Regresar</a>
+		<a class="btn btn-primary" href="{% url 'posts:create' %}">Crear</a>
 		<a class="btn btn-warning" href="{% url 'posts:update' id=instance.id %}">Editar</a>
 		<a class="btn btn-danger" href="{% url 'posts:delete' id=instance.id %}">Eliminar</a>
 	</div>
