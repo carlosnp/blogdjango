@@ -4,6 +4,7 @@ from django.urls import reverse
 # Create your models here.
 class Post(models.Model):
     title       = models.CharField("Titulo",max_length=120)
+    image       = models.FileField("Imagen", null= True, blank=True)
     content     = models.TextField("Contenido")
     updated     = models.DateTimeField("Fecha de Actualizacion",auto_now=True, auto_now_add=False)
     timestamp   = models.DateTimeField("Fecha de creacion",auto_now=False, auto_now_add=True)
