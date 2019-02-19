@@ -7,9 +7,9 @@ from django.http import HttpResponse
 def posts_create(request):
     return HttpResponse("<h1>Crear</h1>")
 
-def posts_detail(request):
+def posts_detail(request, id):
 	# instance = Post.objects.all()
-	instance = get_object_or_404(Post, id = 2)
+	instance = get_object_or_404(Post, id = id)
 	context = {
 		"title": "Detalles del Post",
 		"instance": instance,
