@@ -1,7 +1,8 @@
-# */__pycache__
-# */migrations
-# *.sqlite
-# *.sql
-# __pycache__
-# posts/migrations
-# posts/__pycache__
+*/__pycache__
+*/migrations
+*.sqlite3
+*.sqlite
+*.sql
+__pycache__
+posts/migrations
+posts/__pycache__
