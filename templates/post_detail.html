@@ -12,5 +12,6 @@
 	<h5> {{ instance.author }} </h5>
 
 	<a href="{% url 'posts:list' %}">Regresar</a>
+	<a href="{% url 'posts:update' id=instance.id %}">Editar</a>
 </body>
 </html>

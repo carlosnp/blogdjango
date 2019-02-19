@@ -8,8 +8,6 @@ from .forms import PostForm
 def posts_create(request):
 	template_name = 'post_create.html'
 	form = PostForm(request.POST or None)
-	# if request.method == 'POST':
-	# 	print(request.POST)
 	if form.is_valid():
 		instance = form.save(commit = False)
 		instance.save()
@@ -35,18 +33,23 @@ def posts_list(request):
 		"title": "Lista de Post",
 		"object_list": queryset,
 	}	
-	# if request.user.is_authenticated:
-	# 	context = {
-	# 		"title": "Autenticado"
-	# 	}
-	# else:
-	# 	context = {
-	# 		"title": "Lista"
-	# 	}
 	return render(request, template_name, context)
 
-def posts_update(request):
-    return HttpResponse("<h1>Actualizar</h1>")
+def posts_update(request, id=None):
+    template_name = 'post_create.html'
+    instance = get_object_or_404(Post, id = id)
+    form = PostForm(request.POST or None, instance=instance)
+    if form.is_valid():
+    	instance = form.save(commit = False)
+    	print(form.cleaned_data.get("title"))
+    	instance.save()
+    	return redirect("posts:detail", id=id)
+    context = {
+    	"title": instance.title,
+    	"instance": instance,
+    	"form": form,
+    }
+    return render(request, template_name, context)
 
 def posts_delete(request):
     return HttpResponse("<h1>Borrar</h1>")

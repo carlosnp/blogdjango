@@ -8,6 +8,6 @@ urlpatterns = [
     path('', posts_list, name="list"),
     path('create/', posts_create, name="create"),
     path('<int:id>/', posts_detail, name="detail"),
-    path('update/', posts_update, name="update"),
+    path('<int:id>/edit/', posts_update, name="update"),
     path('delete/', posts_delete, name="delete"),
 ]
