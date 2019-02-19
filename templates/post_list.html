@@ -6,7 +6,9 @@
 <body>
 	<h1> {{ title }} </h1>
 	{% for obj in object_list %}
-	<h2> {{ obj.title }} </h2>
+	<!-- <h2>  <a href="/posts/{{obj.id}}">  {{ obj.title }} </a> </h2> -->
+	<!-- <h2>  <a href="{% url 'posts:detail' id=obj.id %}">  {{ obj.title }} </a> </h2> -->
+	<h2>  <a href="{{ obj.get_absolute_url }}">  {{ obj.title }} </a> </h2>
 	<p> {{ obj.content }} </p>
 	<h5> {{ obj.author }} </h5>
 	{% endfor %}

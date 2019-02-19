@@ -8,15 +8,17 @@ def posts_create(request):
     return HttpResponse("<h1>Crear</h1>")
 
 def posts_detail(request, id):
+	template_name = 'post_detail.html'
 	# instance = Post.objects.all()
 	instance = get_object_or_404(Post, id = id)
 	context = {
 		"title": "Detalles del Post",
 		"instance": instance,
 	}
-	return render(request, "post_detail.html", context)
+	return render(request, template_name, context)
 
 def posts_list(request):
+	template_name = 'post_list.html'
 	queryset = Post.objects.all()
 	context = {
 		"title": "Lista de Post",
@@ -30,7 +32,7 @@ def posts_list(request):
 	# 	context = {
 	# 		"title": "Lista"
 	# 	}
-	return render(request, "post_list.html", context)
+	return render(request, template_name, context)
 
 def posts_update(request):
     return HttpResponse("<h1>Actualizar</h1>")

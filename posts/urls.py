@@ -2,10 +2,12 @@ from django.urls import path
 
 from .views import posts_list, posts_create, posts_detail, posts_update, posts_delete
 
+app_name = "posts"
+
 urlpatterns = [
-    path('', posts_list, name="post_list"),
-    path('create/', posts_create, name="post_create"),
-    path('<int:id>/', posts_detail, name="post_detail"),
-    path('update/', posts_update, name="post_update"),
-    path('delete/', posts_delete, name="post_delete"),
+    path('', posts_list, name="list"),
+    path('create/', posts_create, name="create"),
+    path('<int:id>/', posts_detail, name="detail"),
+    path('update/', posts_update, name="update"),
+    path('delete/', posts_delete, name="delete"),
 ]

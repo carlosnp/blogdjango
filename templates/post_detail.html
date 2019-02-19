@@ -10,5 +10,7 @@
 	<p>Fecha de Creación: {{ instance.timestamp }} </p>
 	<p>Fecha de Actualización: {{ instance.updated }} </p>
 	<h5> {{ instance.author }} </h5>
+
+	<a href="{% url 'posts:list' %}">Regresar</a>
 </body>
 </html>
