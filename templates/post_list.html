@@ -4,6 +4,7 @@
 	<title>List</title>
 </head>
 <body>
+	<a href="{% url 'posts:create' %}">Crear Post</a>
 	<h1> {{ title }} </h1>
 	{% for obj in object_list %}
 	<!-- <h2>  <a href="/posts/{{obj.id}}">  {{ obj.title }} </a> </h2> -->
