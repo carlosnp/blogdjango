@@ -16,6 +16,7 @@ def posts_create(request):
 	form = PostForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		instance = form.save(commit = False)
+		instance.author = request.user
 		instance.save()
 		messages.success(request, "Felicidades creaste un Post")
 		return HttpResponseRedirect(instance.get_absolute_url())
@@ -64,7 +65,6 @@ def posts_update(request, id=None):
     form = PostForm(request.POST or None, request.FILES or None, instance=instance)
     if form.is_valid():
     	instance = form.save(commit = False)
-    	print(form.cleaned_data.get("title"))
     	instance.save()
     	messages.success(request, "Actualizaste el Post")
     	return redirect("posts:detail", id=id)
