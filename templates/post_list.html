@@ -4,15 +4,32 @@
 
 {% block content %}
 
-<a href="{% url 'posts:create' %}">Crear Post</a>
-<h1> {{ title }} </h1>
-	<div class="row">
-		{% for obj in object_list %}
-			<div class="col-xs-12 col-md-6">
+<!-- <a href="{% url 'posts:create' %}">Crear Post</a> -->
+<!-- Encabezado -->
+<div class="row">
+	<div class="col-xs-7">
+		<h2 class="title-post"> {{ title }} </h2>
+	</div>
+	<div class="col-xs-5 btn-group" role="group">
+		<!-- crear un nuevo post -->
+		<a href="{% url 'posts:create' %}">
+			<button class="btn-post" type="button" data-toggle="tooltip" data-placement="bottom" title="Crear">
+				<i class="fa fa-newspaper-o fa-2x" aria-hidden="true"></i>
+			</button>
+		</a>
+	</div>
+</div>
+{% for obj in object_list %}
+		<div class="row container-fluid">
+			<div class="col-xs-6">
 				<div class="card">
 					{% if obj.image %}
 						<img src="{{ obj.image.url }}" alt="Card image cap" class="card-img-top rounded mx-auto d-block">
 					{% endif %}
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="card">
 					<div class="card-body">
 						<!-- <h2>  <a href="/posts/{{obj.id}}">  {{ obj.title }} </a> </h2> -->
 						<!-- <h2>  <a href="{% url 'posts:detail' id=obj.id %}">  {{ obj.title }} </a> </h2> -->
@@ -24,8 +41,8 @@
 				</div>
 			</div>
 			<hr>
+		</div>
 		{% endfor %}
-	</div>
 	<hr>
 	<!-- Paginacion -->
 	<div class="pagination">
