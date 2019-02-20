@@ -4,28 +4,46 @@
 
 {% block content %}
 
-<a href="{% url 'posts:create' %}">Crear Post</a>
-<h1> {{ title }} </h1>
-	<div class="row">
-		{% for obj in object_list %}
-			<div class="col-xs-12 col-md-6">
-				<div class="card">
-					{% if obj.image %}
-						<img src="{{ obj.image.url }}" alt="Card image cap" class="card-img-top rounded mx-auto d-block">
-					{% endif %}
-					<div class="card-body">
-						<!-- <h2>  <a href="/posts/{{obj.id}}">  {{ obj.title }} </a> </h2> -->
-						<!-- <h2>  <a href="{% url 'posts:detail' id=obj.id %}">  {{ obj.title }} </a> </h2> -->
-						<h3 class="card-title">  {{ obj.title|upper }} <small style="color:lightslategrey"> {{ obj.timestamp|date:"D d M Y" }} </small> </h3>
-						<p class="card-text"> {{ obj.content|linebreaks|truncatechars:150 }} </p>
-						<h5> {{ obj.author }} </h5>
-						<p> <a href="{{ obj.get_absolute_url }}" class="card-link" role="button">Ver</a> </p>
-					</div>
+<!-- <a href="{% url 'posts:create' %}">Crear Post</a> -->
+<!-- Encabezado -->
+<div class="row">
+	<div class="col-xs-7">
+		<h2 class="title-post"> {{ title }} </h2>
+	</div>
+	<div class="col-xs-5 btn-group" role="group">
+		<!-- crear un nuevo post -->
+		<a href="{% url 'posts:create' %}">
+			<button class="btn-post" type="button" data-toggle="tooltip" data-placement="bottom" title="Crear">
+				<i class="fa fa-newspaper-o fa-2x" aria-hidden="true"></i>
+			</button>
+		</a>
+	</div>
+</div>
+<br>
+{% for obj in object_list %}
+	<div class="row container-fluid">
+		<div class="col-xs-6">
+			<div class="card" style="width:400px;">
+				{% if obj.image %}
+					<img src="{{ obj.image.url }}" alt="Card image cap" class="card-img-top rounded">
+				{% endif %}
+			</div>
+		</div>
+		<div class="col-xs-6">
+			<div class="card" style="width:600px;">
+				<div class="card-body">
+					<!-- <h2>  <a href="/posts/{{obj.id}}">  {{ obj.title }} </a> </h2> -->
+					<!-- <h2>  <a href="{% url 'posts:detail' id=obj.id %}">  {{ obj.title }} </a> </h2> -->
+					<h3 class="card-title">  {{ obj.title|upper }} <small style="color:lightslategrey"> {{ obj.timestamp|date:"D d M Y" }} </small> </h3>
+					<p class="card-text"> {{ obj.content|linebreaks|truncatechars:150 }} </p>
+					<h5> {{ obj.author }} </h5>
+					<p> <a href="{{ obj.get_absolute_url }}" class="card-link" role="button">Ver</a> </p>
 				</div>
 			</div>
-			<hr>
-		{% endfor %}
+		</div>
+		<hr>
 	</div>
+{% endfor %}
 	<hr>
 	<!-- Paginacion -->
 	<div class="pagination">

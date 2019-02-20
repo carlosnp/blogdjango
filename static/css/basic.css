@@ -17,8 +17,6 @@ p {
 img {
     position: relative;
     float: left;
-    max-width:  200px;
-    /* max-height: 200px; */
     background-position: 50% 50%;
     background-repeat:   no-repeat;
     background-size:     cover;
@@ -35,7 +33,8 @@ img {
     margin: 0 20px;
     width: 100%;
     padding: 8px 15px;
-    background-color: #66BB6A;
+    background-color: #3E8BB9;
     color: white;
     text-transform: uppercase;
 }
+.card .im

@@ -26,55 +26,83 @@
 </style>
 
 {% block content %}
-<h1> {{ title }} </h1>
+	<!-- Encabezado -->
 	<div class="row">
 		<div class="col-xs-7">
-			<h2 class="title-post"> {{ instance.title }} </h2>
+			<h2 class="title-post"> {{ title }} </h2>
 			<h5> <small> {{ instance.timestamp }} </small> </h5>
 		</div>
-		<div class="col-xs-5" role="group">
+		<div class="col-xs-5 btn-group" role="group">
+			<!-- Volver a la lista de post -->
 			<a href="{% url 'posts:list' %}">
 				<button class="btn-post" type="button" data-toggle="tooltip" data-placement="bottom" title="Volver">
 					<i class="fa fa-undo fa-2x" aria-hidden="true"></i>
 				</button>
 			</a>
+			<!-- crear un nuevo post -->
 			<a href="{% url 'posts:create' %}">
 				<button class="btn-post" type="button" data-toggle="tooltip" data-placement="bottom" title="Crear">
 					<i class="fa fa-newspaper-o fa-2x" aria-hidden="true"></i>
 				</button>
 			</a>
+			<!-- Editar el post -->
 			<a href="{% url 'posts:update' id=instance.id %}">
 				<button class="btn-post" type="button" data-toggle="tooltip" data-placement="bottom" title="Editar">
 					<i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
 				</button>
 			</a>
+			<!-- Eliminar el post -->
 			<a href="{% url 'posts:delete' id=instance.id %}">
-				<button class="btn-post" type="button" data-toggle="tooltip" data-placement="bottom" title="Eliminar">
+				<button class="btn-post" type="button" data-toggle="modal" data-target="#ModalButtonDelete" data-placement="bottom" title="Eliminar">
 					<i class="fa fa-trash fa-2x" aria-hidden="true"></i>
-				</button>	
+				</button>
 			</a>
 		</div>
 	</div>
-		
-	<div class="row">
-		<div class="">
-			<div class="">
-				<div class="col-sm-7 col-xs-7">
-					<p> {{ instance.content | linebreaks }} </p>
-					<p>Fecha de Creación: {{ instance.timestamp }} </p>
-					<p>Fecha de Actualización: {{ instance.updated }} </p>
-					<h5> & {{ instance.author }} </h5>
-				</div>
-				<div class="col-sm-5 col-xs-5">
-					{% if instance.image %}
-					<img src="{{ instance.image.url }}" alt="" class="">
-					{% endif %}
+	<!-- Contenido -->
+	<div class="row container-fluid">
+		<div class="col-xs-6">
+			<div class="card" style="max-width:400px;">
+				{% if instance.image %}
+				<img class="card-img-top rounded mx-auto d-block" src="{{ instance.image.url }}" alt="Card image cap" style="width">
+				{% endif %}
+			</div>
+		</div>
+		<div class="col-xs-6">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">{{ instance.title }}</h4>
+					<h4 class="card-text"> {{ instance.content | linebreaks }} </h4>
+					<p class="card-text"><small class="text-muted">Fecha de Creación: {{ instance.timestamp }} </small></p>
+					<p class="card-text"><small class="text-muted">Fecha de Actualización: {{ instance.updated }} </small></p>
+					<h5 class="card-text"> & {{ instance.author }} </h5>
 				</div>
 			</div>
 		</div>
 	</div>
 	<br>
+	<!-- Modal Button -->
+	<div id="ModalButtonDelete" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" style="background-color: #dc3545; text-align: center;">
+					<h4 class="" style="color:white;">Advertencia!!!</h4>            
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<h5>¿Está seguro de Eliminar este post?</h5>
+				</div>
+				<div class="modal-footer">
+					<a href="{% url 'posts:delete' id=instance.id %}">	
+						<button class="btn btn-danger">Aceptar</button>
+					</a>
+					<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Modal Buttons -->
 	<!-- Redes sociales -->
 	{% include 'socialnetwork.html' %}
-	<br>
+
 {% endblock %}
