@@ -1,6 +1,6 @@
 # Django
 from urllib.parse import quote_plus
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -10,6 +10,8 @@ from .models import Post
 from .forms import PostForm
 
 def posts_create(request):
+	if not request.user.is_staff or not request.user.is_superuser:
+		raise Http404
 	template_name = 'post_create.html'
 	form = PostForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
@@ -55,6 +57,8 @@ def posts_list(request):
 	return render(request, template_name, context)
 
 def posts_update(request, id=None):
+    if not request.user.is_staff or not request.user.is_superuser:
+    		raise Http404
     template_name = 'post_create.html'
     instance = get_object_or_404(Post, id = id)
     form = PostForm(request.POST or None, request.FILES or None, instance=instance)
