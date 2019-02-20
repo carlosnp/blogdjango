@@ -2,6 +2,7 @@
 from django.urls import reverse
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
+from django.conf import settings
 
 # Project
 from django.db import models
@@ -31,7 +32,10 @@ class Post(models.Model):
     content     = models.TextField("Contenido")
     updated     = models.DateTimeField("Fecha de Actualizacion",auto_now=True, auto_now_add=False)
     timestamp   = models.DateTimeField("Fecha de creacion",auto_now=False, auto_now_add=True)
-    author      = models.CharField("Autor",max_length=120)
+    author      = models.ForeignKey( 
+                settings.AUTH_USER_MODEL,
+                default = 1,
+                on_delete=models.CASCADE)
 
     def __unicode__(self):
         return self.title
