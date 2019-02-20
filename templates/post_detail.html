@@ -52,8 +52,8 @@
 				</button>
 			</a>
 			<!-- Eliminar el post -->
-			<a href="">
-				<button class="btn-post" type="submit" data-toggle="modal" data-target="#ModalButtonDelete" data-placement="bottom" title="Eliminar">
+			<a href="{% url 'posts:delete' id=instance.id %}">
+				<button class="btn-post" type="button" data-toggle="modal" data-target="#ModalButtonDelete" data-placement="bottom" title="Eliminar">
 					<i class="fa fa-trash fa-2x" aria-hidden="true"></i>
 				</button>
 			</a>
@@ -62,7 +62,7 @@
 	<!-- Contenido -->
 	<div class="row container-fluid">
 		<div class="col-xs-6">
-			<div class="card">
+			<div class="card" style="max-width:400px;">
 				{% if instance.image %}
 				<img class="card-img-top rounded mx-auto d-block" src="{{ instance.image.url }}" alt="Card image cap" style="width">
 				{% endif %}
@@ -80,9 +80,6 @@
 			</div>
 		</div>
 	</div>
-	<br>
-	<!-- Redes sociales -->
-	{% include 'socialnetwork.html' %}
 	<br>
 	<!-- Modal Button -->
 	<div id="ModalButtonDelete" class="modal fade" role="dialog">
@@ -105,5 +102,7 @@
 		</div>
 	</div>
 	<!-- End Modal Buttons -->
+	<!-- Redes sociales -->
+	{% include 'socialnetwork.html' %}
 
 {% endblock %}

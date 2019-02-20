@@ -19,30 +19,31 @@
 		</a>
 	</div>
 </div>
+<br>
 {% for obj in object_list %}
-		<div class="row container-fluid">
-			<div class="col-xs-6">
-				<div class="card">
-					{% if obj.image %}
-						<img src="{{ obj.image.url }}" alt="Card image cap" class="card-img-top rounded mx-auto d-block">
-					{% endif %}
-				</div>
+	<div class="row container-fluid">
+		<div class="col-xs-6">
+			<div class="card" style="width:400px;">
+				{% if obj.image %}
+					<img src="{{ obj.image.url }}" alt="Card image cap" class="card-img-top rounded">
+				{% endif %}
 			</div>
-			<div class="col-xs-6">
-				<div class="card">
-					<div class="card-body">
-						<!-- <h2>  <a href="/posts/{{obj.id}}">  {{ obj.title }} </a> </h2> -->
-						<!-- <h2>  <a href="{% url 'posts:detail' id=obj.id %}">  {{ obj.title }} </a> </h2> -->
-						<h3 class="card-title">  {{ obj.title|upper }} <small style="color:lightslategrey"> {{ obj.timestamp|date:"D d M Y" }} </small> </h3>
-						<p class="card-text"> {{ obj.content|linebreaks|truncatechars:150 }} </p>
-						<h5> {{ obj.author }} </h5>
-						<p> <a href="{{ obj.get_absolute_url }}" class="card-link" role="button">Ver</a> </p>
-					</div>
-				</div>
-			</div>
-			<hr>
 		</div>
-		{% endfor %}
+		<div class="col-xs-6">
+			<div class="card" style="width:600px;">
+				<div class="card-body">
+					<!-- <h2>  <a href="/posts/{{obj.id}}">  {{ obj.title }} </a> </h2> -->
+					<!-- <h2>  <a href="{% url 'posts:detail' id=obj.id %}">  {{ obj.title }} </a> </h2> -->
+					<h3 class="card-title">  {{ obj.title|upper }} <small style="color:lightslategrey"> {{ obj.timestamp|date:"D d M Y" }} </small> </h3>
+					<p class="card-text"> {{ obj.content|linebreaks|truncatechars:150 }} </p>
+					<h5> {{ obj.author }} </h5>
+					<p> <a href="{{ obj.get_absolute_url }}" class="card-link" role="button">Ver</a> </p>
+				</div>
+			</div>
+		</div>
+		<hr>
+	</div>
+{% endfor %}
 	<hr>
 	<!-- Paginacion -->
 	<div class="pagination">
