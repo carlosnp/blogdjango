@@ -1,7 +1,4 @@
-/* h1 {
-    color: #180a8f;
-} */
-
+/* Config basic */
 h2,
 h2 a {
     color: #1f6fe7;
@@ -25,4 +22,20 @@ img {
     background-position: 50% 50%;
     background-repeat:   no-repeat;
     background-size:     cover;
+}
+/* detail-post */
+.btn-post {
+    border: 0;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #66BB6A;
+    color: white;
+}
+.title-post {
+    margin: 0 20px;
+    width: 100%;
+    padding: 8px 15px;
+    background-color: #66BB6A;
+    color: white;
+    text-transform: uppercase;
 }

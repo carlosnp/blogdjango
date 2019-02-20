@@ -3,18 +3,42 @@
 {% block title %} {{block.super}} | {{ title }} {% endblock %}
 
 {% block content %}
-
-	<h1> {{ titles }} </h1>
-	
+	<div class="row">
+		<div class="col-xs-7">
+			<h2 class="title-post"> {{ titles }} </h2>
+		</div>
+		<div class="col-xs-5" role="group">
+			<a href="{% url 'posts:list' %}">
+				<button class="btn-post" type="button" data-toggle="tooltip" data-placement="bottom" title="Volver">
+					<i class="fa fa-undo fa-2x" aria-hidden="true"></i>
+				</button>
+			</a>
+			<a href="{% url 'posts:create' %}">
+				<button class="btn-post" type="submit" data-toggle="tooltip" data-placement="bottom" title="Guardar">
+					<i class="fa fa-floppy-o fa-2x" aria-hidden="true"></i>
+				</button>
+			</a>
+		</div>
+	</div>
+	<br>
 	<form 
 	action="" 
 	method="POST" 
 	enctype="multipart/form-data">
 		{% csrf_token %}
 		{{ form.as_p }}
-		<div class="btn-group" role="group">
-			<a class="btn btn-success" href="{% url 'posts:list' %}">Regresar</a>
-			<input type="submit" name="Crear Post" value="Guardar" class="btn btn-primary">
+		<div class="" role="group">
+			<!-- <a href="{% url 'posts:list' %}">
+				<button class="btn-post" type="button" data-toggle="tooltip" data-placement="bottom" title="Volver">
+					<i class="fa fa-undo fa-2x" aria-hidden="true"></i>
+				</button>
+			</a>
+			<a href="{% url 'posts:create' %}">
+				<button class="btn-post" type="submit" data-toggle="tooltip" data-placement="bottom" title="Guardar">
+					<i class="fa fa-floppy-o fa-2x" aria-hidden="true"></i>
+				</button>
+			</a> -->
+			<!-- <input type="submit" name="Crear Post" value="Guardar" class="btn btn-primary"> -->
 		</div>
 	</form>
 
