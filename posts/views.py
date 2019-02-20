@@ -3,7 +3,7 @@ from urllib.parse import quote_plus
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Project
 from .models import Post
@@ -77,14 +77,3 @@ def posts_delete(request, id=None):
 	instance.delete()
 	messages.success(request, "Eliminaste el Post")
 	return redirect("posts:list")
-
-from django.core.paginator import Paginator
-from django.shortcuts import render
-
-def listing(request):
-    contact_list = Contacts.objects.all()
-    paginator = Paginator(contact_list, 25) # Show 25 contacts per page
-
-    page = request.GET.get('page')
-    contacts = paginator.get_page(page)
-    return render(request, 'list.html', {'contacts': contacts})
