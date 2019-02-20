@@ -1,8 +1,8 @@
 {% load urlify %}
 <div>
-    <p> {{ instance.content|truncatechars:20|urlify }} </p>
-    <p> {{ share_string }} </p>
     {% comment %}
+        <p> {{ instance.content|truncatechars:20|urlify }} </p>
+        <p> {{ share_string }} </p>
         <p> {{ request.build_absolute_uri }} </p>
     {% endcomment %}
         
