@@ -1,8 +1,9 @@
+{% load urlify %}
 <div>
-    
+    <p> {{ instance.content|truncatechars:20|urlify }} </p>
+    <p> {{ share_string }} </p>
     {% comment %}
         <p> {{ request.build_absolute_uri }} </p>
-        <p> {{ share_string }} </p>
     {% endcomment %}
         
     <!-- Facebook -->
@@ -10,7 +11,7 @@
         Facebook
     </a>
     <!-- Twitter -->
-    <a href="https://twitter.com/home?status={{ share_string }}%20{{ request.build_absolute_uri }}">
+    <a href="https://twitter.com/home?status={{ instance.content|truncatechars:20|urlify }}%20{{ request.build_absolute_uri }}">
         Twitter
     </a>
     <!-- Linkedin -->
