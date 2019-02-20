@@ -4,35 +4,66 @@
 
 <style> 
 	{% block style %}
+	:root {
+		--blue-post: #3E8BB9;
+		--green-post: #66BB6A;
+	}
 	h1 {
 		color: red;
+	}
+	.title {
+		margin: 0;
+		border: 2px solid red;
+		width: 100%;
+		padding: 5px 15px;
+		background-color: var(--blue-post);
+		color: white;
+		text-transform: uppercase;
+	}
+	.btn-post {
+		display: inline-block;
+		padding: 12px 20px;
+		border: 2px solid red;
+		background-color: var(--green-post);
+		color: white;
 	}
 	{% endblock style %} 
 </style>
 
 {% block content %}
 <h1> {{ title }} </h1>
+	<div class="row" style="border: 2px solid red;">
+		<div class="col-sm-7 col-xs-7">
+			<h2 class="title"> {{ instance.title }} </h2>
+			<h5> <small> {{ instance.timestamp }} </small> </h5>
+		</div>
+		<div class="col-sm-5 col-xs-5" role="group">
+			<a class="btn-post" href="{% url 'posts:list' %}">Regresar</a>
+			<a class="btn-post" href="{% url 'posts:create' %}">Crear</a>
+			<a class="btn-post" href="{% url 'posts:update' id=instance.id %}">Editar</a>
+			<a class="btn-post" href="{% url 'posts:delete' id=instance.id %}">Eliminar</a>
+		</div>
+	</div>
+		
 	<div class="row">
-		<h2> {{ instance.title }} </h2>
-		<div class="col-md-12">
-			<div class="col-md-8 col-xs-12">
-				<p> {{ instance.content | linebreaks }} </p>
-				<p>Fecha de Creación: {{ instance.timestamp }} </p>
-				<p>Fecha de Actualización: {{ instance.updated }} </p>
-				<h5> & {{ instance.author }} </h5>
-			</div>
-			<div class="col-md-4 col-xs-12">
-				{% if instance.image %}
-					<img src="{{ instance.image.url }}" alt="" class="img-fluid rounded">
-				{% endif %}
+		<div class="">
+			<div class="">
+				<div class="col-sm-7 col-xs-7">
+					<p> {{ instance.content | linebreaks }} </p>
+					<p>Fecha de Creación: {{ instance.timestamp }} </p>
+					<p>Fecha de Actualización: {{ instance.updated }} </p>
+					<h5> & {{ instance.author }} </h5>
+				</div>
+				<div class="col-sm-5 col-xs-5">
+					{% if instance.image %}
+					<img src="{{ instance.image.url }}" alt="" class="">
+					{% endif %}
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class="btn-group" role="group">
-		<a class="btn btn-success" href="{% url 'posts:list' %}">Regresar</a>
-		<a class="btn btn-primary" href="{% url 'posts:create' %}">Crear</a>
-		<a class="btn btn-warning" href="{% url 'posts:update' id=instance.id %}">Editar</a>
-		<a class="btn btn-danger" href="{% url 'posts:delete' id=instance.id %}">Eliminar</a>
-	</div>
-
+	<br>
+	<!-- Redes sociales -->
+	{% include 'socialnetwork.html' %}
+	<br>
 {% endblock %}

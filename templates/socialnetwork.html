@@ -1,0 +1,20 @@
+<div>
+    
+    {% comment %}
+        <p> {{ request.build_absolute_uri }} </p>
+        <p> {{ share_string }} </p>
+    {% endcomment %}
+        
+    <!-- Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
+        Facebook
+    </a>
+    <!-- Twitter -->
+    <a href="https://twitter.com/home?status={{ share_string }}%20{{ request.build_absolute_uri }}">
+        Twitter
+    </a>
+    <!-- Linkedin -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ instance.title }}&summary={{ share_string }}&source={{ request.build_absolute_uri }}">
+        Linkedin
+    </a>
+</div>
