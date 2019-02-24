@@ -37,7 +37,7 @@
 			<!-- Volver a la lista de post -->
 			<a href="{% url 'posts:list' %}">
 				<button class="btn-post" type="button" data-toggle="tooltip" data-placement="bottom" title="Volver">
-					<i class="fa fa-undo fa-2x" aria-hidden="true"></i>
+					<i class="fa fa-arrow-left fa-2x" aria-hidden="true"></i>
 				</button>
 			</a>
 			<!-- crear un nuevo post -->
@@ -80,8 +80,20 @@
 				<div class="card-body">
 					<h4 class="card-title">{{ instance.title }}</h4>
 					<h4 class="card-text"> {{ instance.content | linebreaks }} </h4>
+					{% if instance.draf %}
+						<p class="card-text">
+							<small class="text-muted">  
+								<span style="color:red;"> Borrador </span> 
+							</small>
+						</p>    
+					{% endif %}
 					<p class="card-text"><small class="text-muted">Fecha de Creación: {{ instance.timestamp }} </small></p>
 					<p class="card-text"><small class="text-muted">Fecha de Actualización: {{ instance.updated }} </small></p>
+					<p class="card-text">
+						<small class="text-muted">
+							<span style="color:blue;"> Fecha de Publicación: {{ instance.publish }}  </span>
+						</small>
+					</p>
 					<!-- Nombre del usuario -->
 					{% if instance.author.get_full_name %}
 					<!-- Nombre completo -->

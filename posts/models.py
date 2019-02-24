@@ -27,15 +27,18 @@ class Post(models.Model):
                 height_field="height_field", 
                 width_field="width_field", 
                 max_length=None)
-    height_field=models.IntegerField(default=0)
-    width_field =models.IntegerField(default=0)
+    height_field= models.IntegerField(default=0)
+    width_field = models.IntegerField(default=0)
     content     = models.TextField("Contenido")
-    updated     = models.DateTimeField("Fecha de Actualizacion",auto_now=True, auto_now_add=False)
-    timestamp   = models.DateTimeField("Fecha de creacion",auto_now=False, auto_now_add=True)
+    draf        = models.BooleanField("Borrador", default=False)
+    publish     = models.DateField("Publicar", auto_now=False, auto_now_add=False)
+    updated     = models.DateTimeField("Fecha de Actualización",auto_now=True, auto_now_add=False)
+    timestamp   = models.DateTimeField("Fecha de creación",auto_now=False, auto_now_add=True)
     author      = models.ForeignKey( 
                 settings.AUTH_USER_MODEL,
                 default = 1,
-                on_delete=models.CASCADE)
+                on_delete=models.CASCADE,
+                verbose_name="Autor")
 
     def __unicode__(self):
         return self.title
