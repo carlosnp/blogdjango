@@ -24,12 +24,13 @@
 		</a>
 	</div>
 </div>
+<!-- Buscador -->
 <div class="row" style="margin: 0 5px;">
 	<form method="GET" action="">
 		<div class="input-group mb-2">
 			<input type="text" placeholder="Buscar Post" class="form-control" name="q">
 		  <div class="input-group-append">
-		  	<input type="submit" value="Buscar" class="input-group-text">
+		  	<input type="submit" value="Buscar" class="input-group-text" value="{{ request.GET.q }}">
 		  </div>
 		</div>
 	</form>
@@ -79,17 +80,17 @@
 	<div class="pagination">
 		<span class="step-links">
 			{% if object_list.has_previous %}
-			<a href="?page=1">&laquo; primero</a>
-			<a href="?page={{ object_list.previous_page_number }}">anterior</a>
+			<!-- <a href="?page=1">&laquo; primero</a> -->
+			<a href="?page={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">anterior</a>
 			{% endif %}
 			
 			<span class="current">
-				Página {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+				Página {{ object_list.number }} de {{ object_list.paginator.num_pages }}.
 			</span>
 			
 			{% if object_list.has_next %}
-			<a href="?page={{ object_list.next_page_number }}">siguiente</a>
-			<a href="?page={{ object_list.paginator.num_pages }}">último &raquo;</a>
+			<a href="?page={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">siguiente</a>
+			<!-- <a href="?page={{ object_list.paginator.num_pages }}">último &raquo;</a> -->
 			{% endif %}
 		</span>
 	</div>
