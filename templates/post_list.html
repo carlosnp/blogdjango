@@ -36,6 +36,21 @@
 					<!-- <h2>  <a href="{% url 'posts:detail' id=obj.id %}">  {{ obj.title }} </a> </h2> -->
 					<h3 class="card-title">  {{ obj.title|upper }} <small style="color:lightslategrey"> {{ obj.timestamp|date:"D d M Y" }} </small> </h3>
 					<p class="card-text"> {{ obj.content|linebreaks|truncatechars:150 }} </p>
+					<!-- Si es un borrador -->
+					{% if obj.draf %}
+						<p class="card-text">
+							<small class="text-muted">  
+								<span style="color:red;"> 
+									Borrador
+								</span>
+								<br>
+								<!-- Si la fecha de publicacion es mayor a la actual -->
+								{% if obj.publish > today %}
+									<span> Será publicado el {{ obj.publish }} </span>
+								{% endif %}
+							</small>
+						</p>    
+					{% endif %}
 					<h5> {{ obj.author }} </h5>
 					<p> <a href="{{ obj.get_absolute_url }}" class="card-link" role="button">Ver</a> </p>
 				</div>

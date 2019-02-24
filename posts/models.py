@@ -3,9 +3,17 @@ from django.urls import reverse
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.conf import settings
+from django.utils import timezone
 
 # Project
 from django.db import models
+
+# Filtro de la lista de post
+# Post.objects.all()
+# Post.objects.create(user=user, title="Some time")
+class PostManager(models.Manager):
+    def active(self, *args, **kwargs):
+        return super(PostManager, self).filter(draf=False).filter(publish__lte=timezone.now())
 
 # Actualizar la imagen y guardarla en una carpeta con el id del usuario
 def upload_location(instance, filename):
@@ -39,6 +47,9 @@ class Post(models.Model):
                 default = 1,
                 on_delete=models.CASCADE,
                 verbose_name="Autor")
+
+    # instanciamos el filtro
+    objects = PostManager()
 
     def __unicode__(self):
         return self.title

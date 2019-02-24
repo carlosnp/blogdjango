@@ -80,6 +80,7 @@
 				<div class="card-body">
 					<h4 class="card-title">{{ instance.title }}</h4>
 					<h4 class="card-text"> {{ instance.content | linebreaks }} </h4>
+					<!-- Si es un borrador -->
 					{% if instance.draf %}
 						<p class="card-text">
 							<small class="text-muted">  
@@ -87,6 +88,7 @@
 							</small>
 						</p>    
 					{% endif %}
+					<!-- Fechas del post -->
 					<p class="card-text"><small class="text-muted">Fecha de Creación: {{ instance.timestamp }} </small></p>
 					<p class="card-text"><small class="text-muted">Fecha de Actualización: {{ instance.updated }} </small></p>
 					<p class="card-text">
