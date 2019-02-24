@@ -56,6 +56,10 @@ def posts_list(request):
 	# si es un usuario o un superusuario mostrara todos los posts
 	if request.user.is_staff or request.user.is_superuser:
 		queryset_list = Post.objects.all()		
+	# Buscador
+	query = request.GET.get("q")
+	if query:
+		queryset_list = queryset_list.filter(title__icontains=query)
 	# Paginacion
 	paginator = Paginator(queryset_list, 6)
 	page_request_var = 'page'

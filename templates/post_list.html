@@ -8,7 +8,12 @@
 <!-- Encabezado -->
 <div class="row">
 	<div class="col-xs-7">
-		<h2 class="title-post"> {{ title }} </h2>
+		<h2 class="title-post"> 
+			<a href="{% url 'posts:list' %}" 
+			style="color: white; text-decoration:None"> 
+				{{ title }} 
+			</a>
+		</h2>
 	</div>
 	<div class="col-xs-5 btn-group" role="group">
 		<!-- crear un nuevo post -->
@@ -18,6 +23,16 @@
 			</button>
 		</a>
 	</div>
+</div>
+<div class="row" style="margin: 0 5px;">
+	<form method="GET" action="">
+		<div class="input-group mb-2">
+			<input type="text" placeholder="Buscar Post" class="form-control" name="q">
+		  <div class="input-group-append">
+		  	<input type="submit" value="Buscar" class="input-group-text">
+		  </div>
+		</div>
+	</form>
 </div>
 <br>
 {% for obj in object_list %}
