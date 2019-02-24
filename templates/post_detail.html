@@ -28,10 +28,11 @@
 {% block content %}
 	<!-- Encabezado -->
 	<div class="row">
+		<!-- Titulo -->
 		<div class="col-xs-7">
 			<h2 class="title-post"> {{ title }} </h2>
-			<h5> <small> {{ instance.timestamp }} </small> </h5>
 		</div>
+		<!-- Botones -->
 		<div class="col-xs-5 btn-group" role="group">
 			<!-- Volver a la lista de post -->
 			<a href="{% url 'posts:list' %}">
@@ -58,13 +59,19 @@
 				</button>
 			</a>
 		</div>
+		<!-- End Buttons -->
 	</div>
 	<!-- Contenido -->
+	<br>
 	<div class="row container-fluid">
 		<div class="col-xs-6">
 			<div class="card" style="max-width:400px;">
 				{% if instance.image %}
-				<img class="card-img-top rounded mx-auto d-block" src="{{ instance.image.url }}" alt="Card image cap" style="width">
+				<img 
+				class="card-img-top rounded mx-auto d-block" 
+				src="{{ instance.image.url }}" 
+				alt="Card image cap" 
+				style="">
 				{% endif %}
 			</div>
 		</div>
