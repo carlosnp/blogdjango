@@ -51,7 +51,7 @@
 					<!-- <h2>  <a href="/posts/{{obj.id}}">  {{ obj.title }} </a> </h2> -->
 					<!-- <h2>  <a href="{% url 'posts:detail' id=obj.id %}">  {{ obj.title }} </a> </h2> -->
 					<h3 class="card-title">  {{ obj.title|upper }} <small style="color:lightslategrey"> {{ obj.timestamp|date:"D d M Y" }} </small> </h3>
-					<p class="card-text"> {{ obj.content|linebreaks|truncatechars:150 }} </p>
+					<p class="content-markdown"> {{ obj.content|truncatechars:150 }} </p>
 					<!-- Si es un borrador -->
 					{% if obj.draf %}
 						<p class="card-text">
@@ -97,3 +97,16 @@
 	<hr>
 
 {% endblock %}
+
+<script>
+	{% block script %}
+	    $(document).ready(function(){
+			// Funcion para Render HTML and Markdown en post_detail.html
+			$('.content-markdown').each(function(){
+				var content = $(this).text();
+				var markedContent = marked(content);
+				$(this).html(markedContent);
+			})
+		})
+	{% endblock script %}
+</script>
