@@ -77,7 +77,8 @@
 			<div class="card">
 				<div class="card-body">
 					<h4 class="card-title">{{ instance.title }}</h4>
-					<h4 class="card-text"> {{ instance.content | linebreaks }} </h4>
+					<!-- Contenido del post -->
+					<div class="content-markdown"> {{ instance.content }} </div>
 					<!-- Si es un borrador -->
 					{% if instance.draf %}
 						<p class="card-text">

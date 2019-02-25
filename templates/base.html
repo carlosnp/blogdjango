@@ -15,6 +15,8 @@
 	<link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet" type="text/css">
 </head>
 <body>
+	<!-- Marked -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.1/marked.js"></script>
 	<!-- Comentarios de facebook -->
 	<div id="fb-root"></div>
 	<script async defer src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v3.2"></script>
@@ -25,6 +27,16 @@
 		{% block content %}
 		{% endblock %}
 	</div>
-	<!-- <img src='{% static "img/example.jpg" %}' alt="My image"> -->
+	<!-- jquery -->
+	<script>
+		$(document).ready(function(){
+			// Funcion para Render HTML and Markdown en post_detail.html
+			$('.content-markdown').each(function(){
+				var content = $(this).text()
+				var markedContent = marked(content)
+				$(this).html(markedContent)
+			})
+		})
+	</script>
 </body>
 </html>
