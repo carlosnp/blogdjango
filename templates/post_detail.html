@@ -4,24 +4,6 @@
 
 <style> 
 	{% block style %}
-	:root {
-		--blue-post: #3E8BB9;
-		--green-post: #66BB6A;
-	}
-	h1 {
-		color: red;
-	}
-	.title-post {
-		margin: 0 20px;
-		width: 100%;
-		padding: 8px 15px;
-		background-color: var(--blue-post);
-		color: white;
-		text-transform: uppercase;
-	}
-	a .btn-post {
-		margin: 0;
-	}
 	{% endblock style %} 
 </style>
 
@@ -43,13 +25,13 @@
 			<!-- crear un nuevo post -->
 			<a href="{% url 'posts:create' %}">
 				<button class="btn-post" type="button" data-toggle="tooltip" data-placement="bottom" title="Crear">
-					<i class="fa fa-newspaper-o fa-2x" aria-hidden="true"></i>
+					<i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
 				</button>
 			</a>
 			<!-- Editar el post -->
 			<a href="{% url 'posts:update' id=instance.id %}">
 				<button class="btn-post" type="button" data-toggle="tooltip" data-placement="bottom" title="Editar">
-					<i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
+					<i class="fa fa-newspaper-o fa-2x" aria-hidden="true"></i>
 				</button>
 			</a>
 			<!-- Eliminar el post -->
@@ -133,3 +115,16 @@
 	{% include 'socialnetwork.html' %}
 
 {% endblock %}
+
+<script>
+	{% block script %}
+	    $(document).ready(function(){
+			// Funcion para Render HTML and Markdown en post_detail.html
+			$('.content-markdown').each(function(){
+				var content = $(this).text();
+				var markedContent = marked(content);
+				$(this).html(markedContent);
+			})
+		})
+	{% endblock script %}
+</script>

@@ -28,15 +28,6 @@
 		{% endblock %}
 	</div>
 	<!-- jquery -->
-	<script>
-		$(document).ready(function(){
-			// Funcion para Render HTML and Markdown en post_detail.html
-			$('.content-markdown').each(function(){
-				var content = $(this).text()
-				var markedContent = marked(content)
-				$(this).html(markedContent)
-			})
-		})
-	</script>
+	<script>{% block script %}{% endblock script %}</script>
 </body>
 </html>
