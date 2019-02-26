@@ -39,9 +39,9 @@
 {% for obj in object_list %}
 	<div class="row container-fluid">
 		<div class="col-xs-6">
-			<div class="card" style="width:400px;">
+			<div class="card" style="max-width:400px; width:350px;">
 				{% if obj.image %}
-					<img src="{{ obj.image.url }}" alt="Card image cap" class="card-img-top rounded">
+					<img src="{{ obj.image.url }}" alt="Card image cap" class="img-thumbnail">
 				{% endif %}
 			</div>
 		</div>
@@ -51,7 +51,7 @@
 					<!-- <h2>  <a href="/posts/{{obj.id}}">  {{ obj.title }} </a> </h2> -->
 					<!-- <h2>  <a href="{% url 'posts:detail' id=obj.id %}">  {{ obj.title }} </a> </h2> -->
 					<h3 class="card-title">  {{ obj.title|upper }} <small style="color:lightslategrey"> {{ obj.timestamp|date:"D d M Y" }} </small> </h3>
-					<p class="content-markdown"> {{ obj.content|truncatechars:150 }} </p>
+					<div class="content-markdown"> {{ obj.content|truncatechars:150 }} </div>
 					<!-- Si es un borrador -->
 					{% if obj.draf %}
 						<p class="card-text">
@@ -100,13 +100,5 @@
 
 <script>
 	{% block script %}
-	    $(document).ready(function(){
-			// Funcion para Render HTML and Markdown en post_detail.html
-			$('.content-markdown').each(function(){
-				var content = $(this).text();
-				var markedContent = marked(content);
-				$(this).html(markedContent);
-			})
-		})
 	{% endblock script %}
 </script>

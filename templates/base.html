@@ -31,5 +31,18 @@
 	</div>
 	<!-- jquery -->
 	<script>{% block script %}{% endblock script %}</script>
+	<script>
+	    $(document).ready(function(){
+			// Funcion para Render HTML and Markdown en post_detail.html y en post_list.html
+			$('.content-markdown').each(function(){
+				var content = $(this).text();
+				var markedContent = marked(content);
+				$(this).html(markedContent);
+			});
+			$('.content-markdown img').each(function(){
+				$(this).addClass("img-thumbnail");
+			})
+		})
+	</script>
 </body>
 </html>
