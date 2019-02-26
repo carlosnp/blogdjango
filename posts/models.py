@@ -4,7 +4,9 @@ from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.conf import settings
 from django.utils import timezone
-
+from django.utils.safestring import mark_safe
+# Django External App
+from markdown_deux import markdown
 # Project
 from django.db import models
 
@@ -60,6 +62,10 @@ class Post(models.Model):
     def get_absolute_url(self):
     	# return "/posts/%s/"%(self.id)
     	return reverse("posts:detail", kwargs={"id":self.id})
+
+    def get_markdown(self):
+        content = self.content
+        return mark_safe(markdown(content))
     
     class Meta:
         ordering = ["-id","-timestamp", "-updated"]

@@ -1,8 +1,8 @@
 # Django
 from django import forms
-# External APP
+# Django External APP
 from pagedown.widgets import PagedownWidget
-# Local APP
+# Project
 from .models import Post
 
 class PostForm(forms.ModelForm):
