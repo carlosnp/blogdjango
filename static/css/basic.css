@@ -3,6 +3,9 @@
     --blue-post: #3E8BB9;
     --green-post: #66BB6A;
 }
+h1 {
+    color:red;
+}
 h2,
 h2 a {
     color: #1f6fe7;
