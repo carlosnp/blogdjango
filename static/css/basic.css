@@ -49,3 +49,7 @@ img {
     background-color: #3E8BB9;
     color: white;
 }
+
+.wmd-panel {
+    margin-left: 4% !important;
+}

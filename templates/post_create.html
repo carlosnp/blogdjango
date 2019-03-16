@@ -28,34 +28,47 @@
 		</div>
 	</div>
 	<br>
-	<form 
-	action="" 
-	method="POST" 
-	enctype="multipart/form-data">
-		{% csrf_token %}
-		{{ form.as_p }}
-		<!-- Modal Button -->
-		<div id="ModalButton" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header" style="background-color: orange; text-align: center;">
-						<h4 class="" style="color:white;">
-							<i class="fa fa-undo" aria-hidden="true"></i>
-							Advertencia!!!
-						</h4>            
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body">
-						<h5>¿Está seguro de guardar los cambios?</h5>
-					</div>
-					<div class="modal-footer">
-						<button class="btn btn-warning" style="background-color: orange;">Aceptar</button>
-						<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cerrar</button>
-					</div>
-				</div>
+	<div class="row">
+		
+		<div class="col-sm-6">
+			<h1 style="color: rgb(180, 200, 220);">Vista previa</h1>
+			<div class="content-preview">
+				<h3 id="preview-title"></h3>
+				<p id="preview-content"></p>
 			</div>
 		</div>
-		<!-- End Modal Buttons -->
-	</form>
+	
+		<div class="col-sm-6">
+			<form 
+			action="" 
+			method="POST" 
+			enctype="multipart/form-data">
+				{% csrf_token %}
+				{{ form.as_p }}
+				<!-- Modal Button -->
+				<div id="ModalButton" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header" style="background-color: orange; text-align: center;">
+								<h4 class="" style="color:white;">
+									<i class="fa fa-undo" aria-hidden="true"></i>
+									Advertencia!!!
+								</h4>            
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+							<div class="modal-body">
+								<h5>¿Está seguro de guardar los cambios?</h5>
+							</div>
+							<div class="modal-footer">
+								<button class="btn btn-warning" style="background-color: orange;">Aceptar</button>
+								<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cerrar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End Modal Buttons -->
+			</form>
+		</div>
 
+	</div>
 {% endblock %}
