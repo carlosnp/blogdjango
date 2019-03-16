@@ -87,7 +87,17 @@
 			// console.log($(this).val());
 			var newContent = $(this).val();
 			setContent(newContent);
-		})
+		});
+
 	</script>
+	
+	<script>
+	// Temporizador de los Mensajes
+	var message_ele = document.getElementById("SuccesMessage");
+		setTimeout(function(){ 
+		   message_ele.style.display = "none"; 
+		}, 5000);
+	</script>
+
 </body>
 </html>
