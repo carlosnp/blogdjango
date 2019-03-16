@@ -7,7 +7,7 @@ from .models import Post
 
 class PostForm(forms.ModelForm):
 	# Formulario de Contenido
-	content = forms.CharField(widget=PagedownWidget(show_preview=False))
+	content = forms.CharField(label="Contenido",widget=PagedownWidget(show_preview=False))
 	# Formulario de Fecha con un select
 	publish = forms.DateField(label="Publicar el",widget=forms.SelectDateWidget)
 	class Meta:

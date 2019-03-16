@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+<!-- Crispy Forms -->
+{% load crispy_forms_tags %}
+
+<!-- Titulo -->
 {% block title %} {{block.super}} | {{ title }} {% endblock %}
 
 <!-- PagedownWidget -->
@@ -7,9 +11,11 @@
 {{ form.media }}
 {% endblock head_extra %}
 
+<!-- Contenido del formulario -->
 {% block content %}
 <br>
 <br>
+	<!-- Botones -->
 	<div class="row">
 		<div class="col-xs-7">
 			<h2 class="title-post"> {{ titles }} </h2>
@@ -28,6 +34,7 @@
 		</div>
 	</div>
 	<br>
+	<!-- Formulario -->
 	<div class="row">
 		
 		<div class="col-sm-6">
@@ -44,7 +51,7 @@
 			method="POST" 
 			enctype="multipart/form-data">
 				{% csrf_token %}
-				{{ form.as_p }}
+				{{ form|crispy }}
 				<!-- Modal Button -->
 				<div id="ModalButton" class="modal fade" role="dialog">
 					<div class="modal-dialog">
