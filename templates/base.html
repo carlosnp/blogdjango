@@ -53,8 +53,8 @@
 			$('.content-markdown img').each(function(){
 				$(this).addClass("img-thumbnail");
 			})
-		})
-		
+		});
+		var markedContent(null);
 		// Vista previa de contenido de un post al ser editado o creado
 		
 		// Titulo
@@ -76,7 +76,9 @@
 		// Funcion para que la imagen del contenido renderize
 		function setContent(value) {
 			var markedContent = marked(value);
+			// Contenido
 			$('#preview-content').html(markedContent);
+			// Imagen dentro del contenido
 			$('#preview-content img').each(function() {
 				$(this).addClass("img-thumbnail")
 			});
@@ -88,7 +90,6 @@
 			var newContent = $(this).val();
 			setContent(newContent);
 		});
-
 	</script>
 </body>
 </html>
