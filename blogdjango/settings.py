@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'markdown_deux',
     'crispy_forms',
     # Local APP
-    'posts',
     'comments',
+    'posts',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

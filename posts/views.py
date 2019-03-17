@@ -1,4 +1,5 @@
 # Django
+from django.contrib.contenttypes.models import ContentType
 from urllib.parse import quote_plus
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_object_or_404
@@ -10,6 +11,7 @@ from django.db.models import Q
 # Project
 from .models import Post
 from .forms import PostForm
+from comments.models import Comment
 
 def posts_create(request):
 	
@@ -36,16 +38,23 @@ def posts_detail(request, id):
 	
 	template_name = 'post_detail.html'
 	instance = get_object_or_404(Post, id = id)
+	
 	# permite ver los post que son borradores y su fecha de publicacion es mayor a la actual
 	if instance.draf or instance.publish > timezone.now().date():
 		if not request.user.is_staff or not request.user.is_superuser:
 			raise Http404
 	
 	share_string = quote_plus(instance.content)
+	
+	content_type = ContentType.objects.get_for_model(Post)
+	obj_id 		 = instance.id
+	comments 	 = Comment.objects.filter(content_type = content_type, object_id = obj_id)
+
 	context = {
 		"title": "Detalles del Post",
 		"instance": instance,
 		"share_string": share_string,
+		"comments": comments,
 	}
 	return render(request, template_name, context)
 
