@@ -1,5 +1,4 @@
 # Django
-from django.contrib.contenttypes.models import ContentType
 from urllib.parse import quote_plus
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_object_or_404
@@ -46,9 +45,8 @@ def posts_detail(request, id):
 	
 	share_string = quote_plus(instance.content)
 	
-	content_type = ContentType.objects.get_for_model(Post)
-	obj_id 		 = instance.id
-	comments 	 = Comment.objects.filter(content_type = content_type, object_id = obj_id)
+	#comments 	 = Comment.objects.filter_by_instance(instance)
+	comments 	 = instance.comments
 
 	context = {
 		"title": "Detalles del Post",

@@ -72,6 +72,15 @@ class Post(models.Model):
     class Meta:
         ordering = ["-id","-timestamp", "-updated"]
 
+    # Propiedad Comentarios
+    @property
+    def comments(self):
+        from comments.models import Comment
+        instance = self
+        qs = Comment.objects.filter_by_instance(self)
+        return qs
+    
+
 # Slug funtions
 def create_slug(instance, new_slug=None):
     slug = slugify(instance.title)

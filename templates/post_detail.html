@@ -122,14 +122,27 @@
 				{{ instance.comment_set.all }}
 				<br>
 				{{ comments }}
+				<br>
+				{{ instance.comments.all }}
 			{% endcomment %}
 
 			<h2 class="lead" style="padding-left:20px;text-transform: uppercase;">
 				Comentarios
 			</h2>
-
 			<div class="row">
 				{% for comment in comments %}
+					<div class="col-md-12">
+						<blockquote>
+							<p> {{ comment.content }} </p>
+							<p>
+								<small style="color:#007bff;">
+									via & {{ comment.author|capfirst }} | {{ comment.timestamp|timesince }}
+								</small>
+							</p>
+						</blockquote>
+					</div>
+					
+					{% comment "optional note" %}
 					<div class="col-md-12">
 						{{ comment.content_object }}
 					</div>
@@ -151,6 +164,7 @@
 							& {{ comment.author|capfirst }}
 						</b>
 					</div>
+					{% endcomment %}
 				{% endfor %}
 			</div>
 		</div>
