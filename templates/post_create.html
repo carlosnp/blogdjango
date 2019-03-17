@@ -65,14 +65,37 @@
 								<h5>¿Está seguro de guardar los cambios?</h5>
 							</div>
 							<div class="modal-footer">
-								<button class="btn btn-warning" style="background-color: orange;">Aceptar</button>
-								<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cerrar</button>
+								<button class="btn btn-warning" style="background-color: orange;">
+									Aceptar
+								</button>
+								<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">
+									Cerrar
+								</button>
 							</div>
 						</div>
 					</div>
 				</div>
 				<!-- End Modal Buttons -->
 			</form>
+			<!-- Botones -->
+			<div class="">
+				<div class="col-xs-5 btn-group" role="group">
+					<!-- Boton volver -->
+					<a href="{% url 'posts:list' %}">
+						<button class="btn-post" type="button" 
+						data-toggle="tooltip" data-placement="top" 
+						title="Volver">
+							<i class="fa fa-arrow-left fa-2x" aria-hidden="true"></i>
+						</button>
+					</a>
+					<!-- Boton guardar - levanta un modal -->
+					<button class="btn-post" type="submit" 
+					data-toggle="modal" data-target="#ModalButton" 
+					data-placement="top" title="Guardar">
+						<i class="fa fa-floppy-o fa-2x" aria-hidden="true"></i>
+					</button>
+				</div>
+			</div>
 		</div>
 
 	</div>

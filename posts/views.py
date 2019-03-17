@@ -25,7 +25,7 @@ def posts_create(request):
 		instance = form.save(commit = False)
 		instance.author = request.user
 		instance.save()
-		messages.success(request, "Felicidades creaste un Post")
+		messages.success(request, "Felicidades!!! creaste el POST: %s" % instance.title)
 		return HttpResponseRedirect(instance.get_absolute_url())
 	context = {
 		"title": "Create Post",
@@ -109,7 +109,7 @@ def posts_update(request, id=None):
     if form.is_valid():
     	instance = form.save(commit = False)
     	instance.save()
-    	messages.success(request, "Actualizaste el Post")
+    	messages.success(request, "Actualizaste el POST: %s" % instance.title)
     	return redirect("posts:detail", id=id)
     
     context = {

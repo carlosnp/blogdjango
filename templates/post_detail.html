@@ -112,27 +112,44 @@
 	</div>
 	<!-- End Modal Buttons -->
 	<!-- Comentarios -->
+	{% if  comments %}
 	<div 
-	style="margin-left: 0px; margin-right: 30px; padding-top: 10px;background-color: #d8d8d8">
-		<div class="row">
-			<div class="col-sm-12">
+	style="margin-left: 0px; margin-right: 30px; padding-top: 10px;background-color: #eae6e6bd">
+		<div class="col-sm-12">
+
+			{% comment "optional note" %}
 				<br>
 				{{ instance.comment_set.all }}
 				<br>
 				{{ comments }}
-				<h2 class="lead" style="padding-left:40px;text-transform: uppercase;">
-					Comentarios
-				</h2>
+			{% endcomment %}
+
+			<h2 class="lead" style="padding-left:40px;text-transform: uppercase;">
+				Comentarios
+			</h2>
+
+			<div class="row">
 				{% for comment in comments %}
-					<div>
-						<p  style="padding-left:40px;text-transform: capitalize;">
+					<div class="col-md-7">
+						<p  style="pdadding-left:30px;text-transform: capitalize;">
 							{{ comment.content }}
 						</p>
+					</div>
+					<div class="col-md-3">
+						<span>
+							{{ comment.timestamp }}
+						</span>
+					</div>
+					<div class="col-md-2">
+						<b>
+							& {{ comment.author|capfirst }}
+						</b>
 					</div>
 				{% endfor %}
 			</div>
 		</div>
 	</div>
+	{% endif %}
 
 	{% comment "Redes Sociales" %}
 	<!-- Redes sociales -->
