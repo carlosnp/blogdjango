@@ -124,21 +124,27 @@
 				{{ comments }}
 			{% endcomment %}
 
-			<h2 class="lead" style="padding-left:40px;text-transform: uppercase;">
+			<h2 class="lead" style="padding-left:20px;text-transform: uppercase;">
 				Comentarios
 			</h2>
 
 			<div class="row">
 				{% for comment in comments %}
+					<div class="col-md-12">
+						{{ comment.content_object }}
+					</div>
+
 					<div class="col-md-7">
 						<p  style="pdadding-left:30px;text-transform: capitalize;">
 							{{ comment.content }}
 						</p>
 					</div>
 					<div class="col-md-3">
-						<span>
-							{{ comment.timestamp }}
-						</span>
+						<p>
+							<small>
+								{{ comment.timestamp|timesince }}
+							</small>
+						</p>
 					</div>
 					<div class="col-md-2">
 						<b>
