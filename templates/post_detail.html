@@ -111,8 +111,17 @@
 		</div>
 	</div>
 	<!-- End Modal Buttons -->
+	<!-- Comentarios -->
+	<div class="row">
+		<div class="col-sm-12">
+			{{ instance.comment_set.all }}
+		</div>
+	</div>
+
+	{% comment "Redes Sociales" %}
 	<!-- Redes sociales -->
 	{% include 'socialnetwork.html' %}
+	{% endcomment %}
 
 {% endblock %}
 

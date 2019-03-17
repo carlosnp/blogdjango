@@ -4,8 +4,8 @@
         <p> {{ instance.content|truncatechars:20|urlify }} </p>
         <p> {{ share_string }} </p>
         <p> {{ request.build_absolute_uri }} </p>
-    {% endcomment %}
     <!-- Links de Redes Sociales -->
+    {% endcomment %}
     <div class="col-xs-12">
         <!-- Facebook -->
         <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">

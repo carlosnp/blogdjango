@@ -1,14 +1,16 @@
 # Django
+from django.db import models
 from django.urls import reverse
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.conf import settings
 from django.utils import timezone
 from django.utils.safestring import mark_safe
+
 # Django External App
 from markdown_deux import markdown
+
 # Project
-from django.db import models
 
 # Filtro de la lista de post
 # Post.objects.all()
