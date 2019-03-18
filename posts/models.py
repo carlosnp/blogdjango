@@ -6,6 +6,7 @@ from django.utils.text import slugify
 from django.conf import settings
 from django.utils import timezone
 from django.utils.safestring import mark_safe
+from django.contrib.contenttypes.models import ContentType
 
 # Django External App
 from markdown_deux import markdown
@@ -80,6 +81,13 @@ class Post(models.Model):
         qs = Comment.objects.filter_by_instance(self)
         return qs
     
+    # Crear Comentarios
+    @property
+    def get_content_type(self):
+        from comments.models import Comment
+        instance = self
+        content_type = ContentType.objects.get_for_model(instance.__class__)
+        return content_type
 
 # Slug funtions
 def create_slug(instance, new_slug=None):

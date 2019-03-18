@@ -115,6 +115,16 @@
 	{% if  comments %}
 	<div 
 	style="margin-left: 0px; margin-right: 30px; padding-top: 10px;background-color: #eae6e6bd">
+		<!-- Crea Comentarios -->
+		<div class="col-sm-12">
+			<form action="." method="POST">
+				{% csrf_token %}
+				{{ comment_form }}
+				<input type="submit" value="Guardar Comentario"
+				class="btn btn-primary">
+			</form>
+		</div>
+		<!-- Muestra Comentarios -->
 		<div class="col-sm-12">
 
 			{% comment "optional note" %}
