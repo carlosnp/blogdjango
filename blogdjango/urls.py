@@ -23,7 +23,7 @@ from django.conf.urls import handler404
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('posts/', include('posts.urls', namespace="posts")),
+    path('', include('posts.urls', namespace="posts")),
 ]
 
 if settings.DEBUG:

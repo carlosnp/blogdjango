@@ -52,3 +52,7 @@ img {
     background-color: #3E8BB9;
     color: white;
 }
+
+.wmd-panel {
+    margin-left: 0px !important;
+}

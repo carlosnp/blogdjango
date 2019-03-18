@@ -3,26 +3,24 @@
 <html>
 <head>
 	<title>{% block title %}Blog{% endblock title %}</title>
-	<!-- <link rel="stylesheet" href="/static/css/basic.css"> -->
+	<!-- Estilos propios -->
 	<link rel="stylesheet" href="{% static 'css/basic.css' %}">
 	<style> {% block style %}{% endblock style %} </style>
 	<!-- Bootstrap -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" crossorigin="anonymous">
 	<!-- font-awesome -->
 	<link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet" type="text/css">
-	<link href="{% static 'css/basic.css' %}" rel="stylesheet" href="">
+	<!-- popper -->
+	<link rel="stylesheet" href="{% static 'popper/css/popper.css' %}">
 	<!-- Extra -->
 	{% block head_extra %}{% endblock head_extra %}
+	<!-- ICON-->
+	<link rel="shortcut icon" href="#">
 </head>
 <body>
-	<!-- Marked -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.1/marked.js"></script>
-	<!-- Comentarios de facebook -->
-	<div id="fb-root"></div>
-	<script async defer src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v3.2"></script>
+	<div>
+		{% include 'navbar.html' %}
+	</div>
 	<!-- Mensajes Django -->
 	{% include 'mensajes.html' %}
 	<!-- Contenido -->
@@ -31,6 +29,20 @@
 		{% endblock %}
 	</div>
 	<!-- jquery -->
+	<script src="{% static 'jquery/jquery-3.3.1.js' %}"></script>
+	<script src="{% static 'jquery/jquery-3.3.1.slim.js' %}" crossorigin="anonymous"></script>
+	<!-- Bootstrap -->
+	<script src="{% static 'bootstrap/js/bootstrap.min.js' %}" crossorigin="anonymous"></script>
+	<!-- popper -->
+	<script src="{% static 'popper/js/popper.min.js' %}" crossorigin="anonymous"></script>
+	<!-- Marked -->
+	<script src="{% static 'marked/marked.js' %}"></script>
+	<!-- Comentarios de facebook -->
+	<!--
+	<div id="fb-root"></div>
+	<script async defer src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v3.2"></script>
+	-->
+	<!-- Extras -->
 	<script>{% block script %}{% endblock script %}</script>
 	<script>
 	    $(document).ready(function(){
@@ -43,7 +55,42 @@
 			$('.content-markdown img').each(function(){
 				$(this).addClass("img-thumbnail");
 			})
+		});
+		// Vista previa de contenido de un post al ser editado o creado
+		
+		// Titulo
+		var titleItem = $('#id_title');
+		
+		function setTitle(value) {
+			$('#preview-title').text(value);
+		}
+		setTitle(titleItem.val());
+		// actualizacion automatica de la vista previa del titulo
+		titleItem.keyup(function(){
+			// console.log($(this).val());
+			var newTitle = $(this).val();
+			setTitle(newTitle);
 		})
+		
+		// Contenido
+		var contentItem = $('#id_content');
+		// Funcion para que la imagen del contenido renderize
+		function setContent(value) {
+			var markedContent = marked(value);
+			// Contenido
+			$('#preview-content').html(markedContent);
+			// Imagen dentro del contenido
+			$('#preview-content img').each(function() {
+				$(this).addClass("img-thumbnail")
+			});
+		}
+		setContent(contentItem.val())
+		// actualizacion automatica de la vista previa del contenido
+		contentItem.keyup(function(){
+			// console.log($(this).val());
+			var newContent = $(this).val();
+			setContent(newContent);
+		});
 	</script>
 </body>
 </html>

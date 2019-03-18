@@ -1,14 +1,17 @@
 # Django
+from django.db import models
 from django.urls import reverse
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.conf import settings
 from django.utils import timezone
 from django.utils.safestring import mark_safe
+from django.contrib.contenttypes.models import ContentType
+
 # Django External App
 from markdown_deux import markdown
+
 # Project
-from django.db import models
 
 # Filtro de la lista de post
 # Post.objects.all()
@@ -69,6 +72,22 @@ class Post(models.Model):
     
     class Meta:
         ordering = ["-id","-timestamp", "-updated"]
+
+    # Propiedad Comentarios
+    @property
+    def comments(self):
+        from comments.models import Comment
+        instance = self
+        qs = Comment.objects.filter_by_instance(self)
+        return qs
+    
+    # Crear Comentarios
+    @property
+    def get_content_type(self):
+        from comments.models import Comment
+        instance = self
+        content_type = ContentType.objects.get_for_model(instance.__class__)
+        return content_type
 
 # Slug funtions
 def create_slug(instance, new_slug=None):

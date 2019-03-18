@@ -1,7 +1,37 @@
+<br>
+<br>
+{% comment "pagina de django messages" %}
+    https://docs.djangoproject.com/en/2.1/ref/contrib/messages/
+{% endcomment %}
+
 {% if messages %}
-	<ul class="messages">
+	<div class="messages" id="SuccesMessage">
 	    {% for message in messages %}
-	    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+	    <div 
+	    style="margin: 0 20px; text-align: center;"
+	    role="alert" 
+	    {% if message.tags %} 
+	    	class="alert alert-{{ message.tags }} alert-dismissible"
+	    {% endif %}>
+    		 <button 
+    		 type="button" 
+    		 class="close" 
+    		 data-dismiss="alert" 
+    		 aria-hidden="true">
+    		 	&times;
+    		 </button>
+			<h3>
+				{{ message }}
+			</h3>
+		</div>
 	    {% endfor %}
-	</ul>
+	</div>
+
+	<script>
+	// Temporizador de Mensajes
+	var message_ele = document.getElementById("SuccesMessage");
+		setTimeout(function(){ 
+		   message_ele.style.display = "none"; 
+		}, 5000);
+	</script>
 {% endif %}

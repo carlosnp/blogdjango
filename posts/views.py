@@ -1,5 +1,6 @@
 # Django
 from urllib.parse import quote_plus
+from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -10,6 +11,8 @@ from django.db.models import Q
 # Project
 from .models import Post
 from .forms import PostForm
+from comments.models import Comment
+from comments.forms import CommentForm
 
 def posts_create(request):
 	
@@ -23,7 +26,7 @@ def posts_create(request):
 		instance = form.save(commit = False)
 		instance.author = request.user
 		instance.save()
-		messages.success(request, "Felicidades creaste un Post")
+		messages.success(request, "Felicidades!!! creaste el POST: %s" % instance.title)
 		return HttpResponseRedirect(instance.get_absolute_url())
 	context = {
 		"title": "Create Post",
@@ -36,16 +39,46 @@ def posts_detail(request, id):
 	
 	template_name = 'post_detail.html'
 	instance = get_object_or_404(Post, id = id)
+	
 	# permite ver los post que son borradores y su fecha de publicacion es mayor a la actual
 	if instance.draf or instance.publish > timezone.now().date():
 		if not request.user.is_staff or not request.user.is_superuser:
 			raise Http404
 	
 	share_string = quote_plus(instance.content)
+	
+	# Base de Datos inicial
+	initial_data = {
+		"content_type": instance.get_content_type,
+		"object_id": instance.id,
+	}
+	# Crea comentarios
+	form = CommentForm(request.POST or None, initial=initial_data)
+	if form.is_valid():
+		print(form.cleaned_data)
+		c_type = form.cleaned_data.get("content_type")
+		content_type = ContentType.objects.get(model=c_type)
+		obj_id = form.cleaned_data.get("object_id")
+		content_data = form.cleaned_data.get("content")
+		new_comment, created = Comment.objects.get_or_create(
+										author = request.user,
+										content_type = content_type,
+										object_id= obj_id,
+										#content=content_data
+										)
+		if created:
+			print("se creo un comentario")
+
+	# Muestra comentarios
+	#comments 	 = Comment.objects.filter_by_instance(instance)
+	comments 	 = instance.comments
+
 	context = {
 		"title": "Detalles del Post",
 		"instance": instance,
 		"share_string": share_string,
+		"comments": comments,
+		"comment_form": form,
 	}
 	return render(request, template_name, context)
 
@@ -100,7 +133,7 @@ def posts_update(request, id=None):
     if form.is_valid():
     	instance = form.save(commit = False)
     	instance.save()
-    	messages.success(request, "Actualizaste el Post")
+    	messages.success(request, "Actualizaste el POST: %s" % instance.title)
     	return redirect("posts:detail", id=id)
     
     context = {
