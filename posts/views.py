@@ -67,7 +67,7 @@ def posts_detail(request, id):
 										content=content_data
 										)
 		if created:
-			print("se creo un comentario")
+			messages.success(request, "Añadiste un comentario al POST: %s" % instance.title)
 
 	# Muestra comentarios
 	comments = instance.comments
@@ -139,7 +139,7 @@ def posts_update(request, id=None):
     	"title": instance.title,
     	"titles": "Editar Post",
     	"instance": instance,
-    	"form": form,
+    	"form": form
     }
     return render(request, template_name, context)
 
