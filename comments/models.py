@@ -8,7 +8,7 @@ from django.contrib.contenttypes.models import ContentType
 # Django External App
 
 # Project
-from posts.models import Post
+
 
 class CommentManager(models.Manager):
 
@@ -23,19 +23,14 @@ class Comment(models.Model):
 					settings.AUTH_USER_MODEL, 
 					default = 1, 
 					on_delete=models.CASCADE, 
-					verbose_name="Autor")
-	post 			= models.ForeignKey(
-					Post, 
-					on_delete=models.CASCADE,)
+					verbose_name="Autor",)
 	
 	content_type 	= models.ForeignKey(
 					ContentType, 
 					on_delete=models.CASCADE,
-					verbose_name="Tipo de Contenido",
-					null=True,)
+					verbose_name="Tipo de Contenido",)
 	object_id 	 	= models.PositiveIntegerField(
-    				"ID", 
-    				null=True,)
+    				"ID",)
 	content_object 	= GenericForeignKey(
     				'content_type', 
     				'object_id')

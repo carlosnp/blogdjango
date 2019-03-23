@@ -12,6 +12,7 @@ from django.contrib.contenttypes.models import ContentType
 from markdown_deux import markdown
 
 # Project
+from comments.models import Comment
 
 # Filtro de la lista de post
 # Post.objects.all()
@@ -76,7 +77,6 @@ class Post(models.Model):
     # Propiedad Comentarios
     @property
     def comments(self):
-        from comments.models import Comment
         instance = self
         qs = Comment.objects.filter_by_instance(self)
         return qs
@@ -84,7 +84,6 @@ class Post(models.Model):
     # Crear Comentarios
     @property
     def get_content_type(self):
-        from comments.models import Comment
         instance = self
         content_type = ContentType.objects.get_for_model(instance.__class__)
         return content_type
