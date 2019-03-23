@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-
+{% load urlify %}
+{% load crispy_forms_tags %}
 {% block title %} {{block.super}} | Post Detail {% endblock %}
 
 <style> 
@@ -140,7 +141,7 @@
 				<div class="modal-body">
 					<form action="." method="POST">
 						{% csrf_token %}
-						{{ comment_form }}
+						{{ comment_form|crispy }}
 						<input type="submit" value="Guardar Comentario"
 						class="btn btn-primary">
 						<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Cerrar</button>
