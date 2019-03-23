@@ -16,11 +16,9 @@ Including another URLconf
 import django
 from django.contrib import admin
 from django.urls import path, include
-# Static files
+# Configuracion de los archivos estaticos
 from django.conf import settings
 from django.conf.urls.static import static
-# Configuracion de errores
-from django.conf.urls import handler404
 
 urlpatterns = [
     path('admin/', admin.site.urls),
