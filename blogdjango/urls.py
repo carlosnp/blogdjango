@@ -24,6 +24,8 @@ from django.conf.urls import handler404
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('posts.urls', namespace="posts")),
+    path('404/',  django.views.defaults.page_not_found, kwargs={'exception': Exception('Page Not Found!')},name='Error404'),
+    path('500/',  django.views.defaults.server_error, name='Error500'),
 ]
 
 if settings.DEBUG:
