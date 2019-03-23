@@ -1,7 +1,10 @@
 /* Config basic */
 :root {
-    --blue-post: #3E8BB9;
+    --blue-post: rgb(12, 68, 100);
     --green-post: #66BB6A;
+}
+h1 {
+    color:red;
 }
 h2,
 h2 a {

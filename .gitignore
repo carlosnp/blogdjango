@@ -4,5 +4,7 @@
 *.sqlite
 *.sql
 __pycache__
-posts/migrations
 posts/__pycache__
+posts/migrations
+posts/migrations/__pycache__
+blogdjango/__pycache__
