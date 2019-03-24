@@ -189,87 +189,52 @@
 		<!-- Muestra Comentarios -->
 		<div class="col-sm-12">
 
-			{% comment "optional note" %}
-				<br>
-				{{ instance.comment_set.all }}
-				<br>
-				{{ comments }}
-				<br>
-				{{ instance.comments.all }}
-			{% endcomment %}
-
-			<h2 class="lead" style="padding-left:20px;text-transform: uppercase;">
+			<!-- Titulo -->
+			<h2 class="lead" 
+			style="padding-left:20px;text-transform: uppercase;">
 				Comentarios
 			</h2>
+			<!-- Comentarios -->
 			<div class="row">
 				{% for comment in comments %}
 					<div class="col-md-12" style="border-top: 1px solid #d4cbcb">
 						<blockquote>
+							<!-- Comentario Padre -->
 							<p> {{ comment.content }} </p>
-							<p>
-								<small style="color:#007bff;">
-									via & {{ comment.author|capfirst }}  |  {{ comment.timestamp|timesince }} 
-									<button type="button" 
-									data-toggle="modal" 
-									data-target="#ModalReplyComment" 
-									data-id="{{ comment.id }}"
-									data-url=" {{ get_absolute_url }} "
-									data-placement="bottom" 
-									title="Replicar Comentario"
-									class="btn btn-link btn-sm">
-										<i class="fa fa-comment" aria-hidden="true"></i>	
-									</button>
-								</small>
-							</p>
-						{% for child_comment in comment.children %}							
-							<blockquote style="padding-left:25px; margin: 0 30px; background-color:#d4cbcb;border-radius:2px;">
-								<p> {{ child_comment.content }} </p>
-								<p>
-									<small style="color:#007bff;">
-										via & {{ child_comment.author|capfirst }}  |  {{ child_comment.timestamp|timesince }} 
-									</small>
-								</p>
-							</blockquote>
-						{% endfor %}
-						
-						<form action="." method="POST">
-							{% csrf_token %}
-							{{ comment_form|crispy }}
-							<input type="hidden" name="parent_id" value=" {{ comment.id }} ">
-							<input type="submit" value="Replicar Comentario"
-							class="btn btn-primary">
-						</form>
-
-
-						</blockquote>
-					</div>
-					
-					{% comment "optional note" %}
-					<div class="col-md-12">
-						{{ comment.content_object }}
-					</div>
-
-					<div class="col-md-7">
-						<p  style="pdadding-left:30px;text-transform: capitalize;">
-							{{ comment.content }}
-						</p>
-					</div>
-					<div class="col-md-3">
-						<p>
-							<small>
-								{{ comment.timestamp|timesince }}
+							<small style="color:#483f3f; margin: 0 20px">
+								via & {{ comment.author|capfirst }}  |  {{ comment.timestamp|timesince }}
+								{% if comment.children.count > 0 %}| {{ comment.children.count }} Comentario{% endif %}{% if comment.children.count > 1 %}s{% endif %}
+								| <a href="#" class="comment_reply_btn" style="color:#007bff;">Responder</a>
 							</small>
-						</p>
+							<!-- Replica de Comentarios -->
+							<div class="comment_reply" style="display:none;">
+								{% for child_comment in comment.children %}							
+									<blockquote style="padding-left:25px; margin: 0 30px; background-color:#d4cbcb;border-radius:2px;">
+										<p> {{ child_comment.content }} </p>
+										<p>
+											<small style="color:#007bff;">
+												via & {{ child_comment.author|capfirst }}  |  {{ child_comment.timestamp|timesince }} 
+											</small>
+										</p>
+									</blockquote>
+								{% endfor %}
+								<div class="container">				
+									<form action="." method="POST">
+										{% csrf_token %}
+										{{ comment_form|crispy }}
+										<input type="hidden" name="parent_id" value=" {{ comment.id }} ">
+										<input type="submit" value="Replicar Comentario"
+										class="btn btn-primary">
+									</form>
+								</div>
+							</div>
+						</blockquote>
+						<!-- FIN de Comentarios -->
 					</div>
-					<div class="col-md-2">
-						<b>
-							& {{ comment.author|capfirst }}
-						</b>
-					</div>
-					{% endcomment %}
 				{% endfor %}
 			</div>
 		</div>
+		<!-- Fin Muestra Comentarios -->
 	</div>
 
 
@@ -282,24 +247,12 @@
 
 <script>
 	{% block script %}
-	// $(document).ready(function(){
-	// 	var modalDiv = $(".modalreply");
-	 
-	// $("#ModalReplyComment").on("click", function() {
-	// 	console.log("Hola");
-	// 	$.ajax({
-	// 		url: $(this).attr("data-url"),
-	// 		type:'POST',
-	// 		data: {
-	// 			'id': id,
-	// 			'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-	// 		},
-	// 		success:function(data){
- //            $('#ModalReplyComment').html($('#ModalReplyComment',data));
- //            $('#ModalReplyComment').modal('show');
- //        },
-	// 		});
-	// 	});
-	// })
+	$(document).ready(function() {
+		// muestra los comentarios
+		$(".comment_reply_btn").on("click",function(e) {
+			e.preventDefault();
+			$(this).parent().next(".comment_reply").fadeToggle("fast", "linear");
+		});
+	});
 	{% endblock script %}
 </script>
