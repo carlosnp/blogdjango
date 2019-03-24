@@ -130,12 +130,12 @@
 	</div>
 	<!-- End Modal Buttons -->
 
-	<!-- Modal Comment -->
+	<!-- Modal Create Comment -->
 	<div id="ModalCreateComment" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header">
-					<h4> Comentar el Post: {{ instance.title }} </h4>
+				<div class="modal-header" style="color:white; background-color: #007bff; border-radius: .25rem;">
+					<h4> Comentar el Post: {{ instance.title|capfirst }} </h4>
 				</div>
 				<!-- Crea Comentarios -->
 				<div class="modal-body">
@@ -146,6 +146,37 @@
 						class="btn btn-primary">
 						<button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cerrar</button>
 					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Modal Comment -->
+
+	<!-- Modal Reply Comment -->
+	<div class="modalreply">
+		<div id="ModalReplyComment" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header"
+					style="color:white; background-color: #007bff; border-radius: .25rem;">
+						<div class="row">
+							<div class="container-fluid">
+								<h4> Replica al comentario del Post:</h4>
+								<h4> {{ instance.title|capfirst }}  </h4>
+							</div>
+						</div>
+					</div>
+					<!-- Crea Comentarios -->
+					<div class="modal-body">
+						<form action="." method="POST">
+							{% csrf_token %}
+							{{ comment_form|crispy }}
+							<input type="hidden" name="parent_id" value=" {{ comment.id }} ">
+							<input type="submit" value="Replicar Comentario"
+							class="btn btn-primary">
+							<button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cerrar</button>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -172,14 +203,44 @@
 			</h2>
 			<div class="row">
 				{% for comment in comments %}
-					<div class="col-md-12">
+					<div class="col-md-12" style="border-top: 1px solid #d4cbcb">
 						<blockquote>
 							<p> {{ comment.content }} </p>
 							<p>
 								<small style="color:#007bff;">
-									via & {{ comment.author|capfirst }} | {{ comment.timestamp|timesince }}
+									via & {{ comment.author|capfirst }}  |  {{ comment.timestamp|timesince }} 
+									<button type="button" 
+									data-toggle="modal" 
+									data-target="#ModalReplyComment" 
+									data-id="{{ comment.id }}"
+									data-url=" {{ get_absolute_url }} "
+									data-placement="bottom" 
+									title="Replicar Comentario"
+									class="btn btn-link btn-sm">
+										<i class="fa fa-comment" aria-hidden="true"></i>	
+									</button>
 								</small>
 							</p>
+						{% for child_comment in comment.children %}							
+							<blockquote style="padding-left:25px; margin: 0 30px; background-color:#d4cbcb;border-radius:2px;">
+								<p> {{ child_comment.content }} </p>
+								<p>
+									<small style="color:#007bff;">
+										via & {{ child_comment.author|capfirst }}  |  {{ child_comment.timestamp|timesince }} 
+									</small>
+								</p>
+							</blockquote>
+						{% endfor %}
+						
+						<form action="." method="POST">
+							{% csrf_token %}
+							{{ comment_form|crispy }}
+							<input type="hidden" name="parent_id" value=" {{ comment.id }} ">
+							<input type="submit" value="Replicar Comentario"
+							class="btn btn-primary">
+						</form>
+
+
 						</blockquote>
 					</div>
 					
@@ -221,5 +282,24 @@
 
 <script>
 	{% block script %}
+	// $(document).ready(function(){
+	// 	var modalDiv = $(".modalreply");
+	 
+	// $("#ModalReplyComment").on("click", function() {
+	// 	console.log("Hola");
+	// 	$.ajax({
+	// 		url: $(this).attr("data-url"),
+	// 		type:'POST',
+	// 		data: {
+	// 			'id': id,
+	// 			'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+	// 		},
+	// 		success:function(data){
+ //            $('#ModalReplyComment').html($('#ModalReplyComment',data));
+ //            $('#ModalReplyComment').modal('show');
+ //        },
+	// 		});
+	// 	});
+	// })
 	{% endblock script %}
 </script>

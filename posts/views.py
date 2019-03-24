@@ -60,14 +60,30 @@ def posts_detail(request, id):
 		content_type 	= ContentType.objects.get(model=c_type)
 		obj_id 			= form.cleaned_data.get("object_id")
 		content_data 	= form.cleaned_data.get("content")
+		
+		# Verificamos si existe el padre de un comentario
+		parent_obj		= None
+		try:
+			parent_id	= int(request.POST.get("parent_id"))
+		except:
+			parent_id	= None
+		if parent_id:
+			parent_qs = Comment.objects.filter(id=parent_id)
+			if parent_qs.exists() and parent_qs.count() == 1:
+				parent_obj = parent_qs[0] #.first()
+
+		# Creamos un comentario
 		new_comment, created = Comment.objects.get_or_create(
 										author = request.user,
 										content_type = content_type,
 										object_id= obj_id,
-										content=content_data
+										content=content_data,
+										parent = parent_obj
 										)
 		if created:
 			messages.success(request, "Añadiste un comentario al POST: %s" % instance.title)
+
+		return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
 
 	# Muestra comentarios
 	comments = instance.comments
