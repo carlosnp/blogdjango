@@ -247,12 +247,10 @@
 
 <script>
 	{% block script %}
-	$(document).ready(function() {
-		// muestra los comentarios
-		$(".comment_reply_btn").on("click",function(e) {
-			e.preventDefault();
-			$(this).parent().next(".comment_reply").fadeToggle("fast", "linear");
-		});
+	// muestra los comentarios
+	$(".comment_reply_btn").on("click",function(e) {
+		e.preventDefault();
+		$(this).parent().next(".comment_reply").fadeToggle("fast", "linear");
 	});
 	{% endblock script %}
 </script>

@@ -90,6 +90,11 @@
 			var newContent = $(this).val();
 			setContent(newContent);
 		});
+		// muestra los comentarios
+		$(".comment_reply_btn").on("click",function(e) {
+			e.preventDefault();
+			$(this).parent().next(".comment_reply").fadeToggle("fast", "linear");
+		});
 	</script>
 </body>
 </html>
