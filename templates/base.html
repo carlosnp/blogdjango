@@ -30,7 +30,6 @@
 	</div>
 	<!-- jquery -->
 	<script src="{% static 'jquery/jquery-3.3.1.js' %}"></script>
-	<script src="{% static 'jquery/jquery-3.3.1.slim.js' %}" crossorigin="anonymous"></script>
 	<!-- Bootstrap -->
 	<script src="{% static 'bootstrap/js/bootstrap.min.js' %}" crossorigin="anonymous"></script>
 	<!-- popper -->
@@ -91,6 +90,15 @@
 			var newContent = $(this).val();
 			setContent(newContent);
 		});
+		// muestra los comentarios
+		$(".comment_reply_btn").on("click",function(e) {
+			e.preventDefault();
+			$(this).parent().next(".comment_reply").fadeToggle("fast", "linear");
+		});
 	</script>
 </body>
 </html>
+
+{% comment "optional note" %}
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. In vitae aperiam deleniti consequuntur aliquam fuga. Voluptate doloribus, adipisci repudiandae amet reiciendis soluta expedita ad dolore commodi. Delectus quaerat itaque iusto.
+{% endcomment %}

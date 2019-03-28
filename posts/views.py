@@ -11,8 +11,8 @@ from django.db.models import Q
 # Project
 from .models import Post
 from .forms import PostForm
-from comments.models import Comment
 from comments.forms import CommentForm
+from comments.models import Comment
 
 def posts_create(request):
 	
@@ -56,29 +56,44 @@ def posts_detail(request, id):
 	form = CommentForm(request.POST or None, initial=initial_data)
 	if form.is_valid():
 		print(form.cleaned_data)
-		c_type = form.cleaned_data.get("content_type")
-		content_type = ContentType.objects.get(model=c_type)
-		obj_id = form.cleaned_data.get("object_id")
-		content_data = form.cleaned_data.get("content")
+		c_type 			= form.cleaned_data.get("content_type")
+		content_type 	= ContentType.objects.get(model=c_type)
+		obj_id 			= form.cleaned_data.get("object_id")
+		content_data 	= form.cleaned_data.get("content")
+		
+		# Verificamos si existe el padre de un comentario
+		parent_obj		= None
+		try:
+			parent_id	= int(request.POST.get("parent_id"))
+		except:
+			parent_id	= None
+		if parent_id:
+			parent_qs = Comment.objects.filter(id=parent_id)
+			if parent_qs.exists() and parent_qs.count() == 1:
+				parent_obj = parent_qs[0] #.first()
+
+		# Creamos un comentario
 		new_comment, created = Comment.objects.get_or_create(
 										author = request.user,
 										content_type = content_type,
 										object_id= obj_id,
-										#content=content_data
+										content=content_data,
+										parent = parent_obj
 										)
 		if created:
-			print("se creo un comentario")
+			messages.success(request, "Añadiste un comentario al POST: %s" % instance.title)
+
+		return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
 
 	# Muestra comentarios
-	#comments 	 = Comment.objects.filter_by_instance(instance)
-	comments 	 = instance.comments
+	comments = instance.comments
 
 	context = {
 		"title": "Detalles del Post",
 		"instance": instance,
 		"share_string": share_string,
 		"comments": comments,
-		"comment_form": form,
+		"comment_form": form
 	}
 	return render(request, template_name, context)
 
@@ -140,12 +155,12 @@ def posts_update(request, id=None):
     	"title": instance.title,
     	"titles": "Editar Post",
     	"instance": instance,
-    	"form": form,
+    	"form": form
     }
     return render(request, template_name, context)
 
 def posts_delete(request, id=None):
 	instance = get_object_or_404(Post, id = id)
 	instance.delete()
-	messages.success(request, "Eliminaste el Post")
+	messages.success(request, "Eliminaste el Post: %s" % instance.title)
 	return redirect("posts:list")

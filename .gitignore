@@ -1,8 +1,15 @@
+db.sqlite3
 */__pycache__
 */migrations
 *.sqlite3
 *.sqlite
 *.sql
 __pycache__
-posts/migrations
+blogdjango/__pycache__
+comments/__pycache__
+comments/migrations
+comments/migrations/__pycache__
 posts/__pycache__
+posts/migrations
+posts/migrations/__pycache__
+posts/templatetags/__pycache__

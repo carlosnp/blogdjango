@@ -5,9 +5,9 @@ from django.contrib import admin
 from .models import Comment
 
 class CommentModelAdmin(admin.ModelAdmin):
-	list_display        = ('author', 'post', 'content_type','timestamp')
-	list_display_links  = ["post"]
-	list_filter         = ["author", "post"]
-	search_fields       = ["author", "post", 'content_type']
+	list_display        = ('author', 'content_type','timestamp')
+	list_display_links  = ["author"]
+	list_filter         = ["author",]
+	search_fields       = ["author", 'content_type']
 
 admin.site.register(Comment, CommentModelAdmin)
