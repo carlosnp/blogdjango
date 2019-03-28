@@ -95,6 +95,14 @@
 							<span style="color:blue;"> Fecha de Publicación: {{ instance.publish }}  </span>
 						</small>
 					</p>
+					<p class="card-text">
+						<small> Tiempo de Lectura: 
+							{% if instance.read_time|time:"i" <= "01" %} < 1 minuto
+							{% elif instance.read_time|time:"i" < "10" %} < 10 minutos
+							{% else %} {{ instance.read_time|time:"i" }} minutos
+							{% endif %}
+						</small> 
+					</p>
 					<!-- Nombre del usuario -->
 					{% if instance.author.get_full_name %}
 					<!-- Nombre completo -->

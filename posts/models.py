@@ -12,6 +12,7 @@ from django.contrib.contenttypes.models import ContentType
 from markdown_deux import markdown
 
 # Project
+from .utils import get_read_time
 from comments.models import Comment
 
 # Filtro de la lista de post
@@ -46,6 +47,7 @@ class Post(models.Model):
     content     = models.TextField("Contenido")
     draf        = models.BooleanField("Borrador", default=False)
     publish     = models.DateField("Publicar", auto_now=False, auto_now_add=False)
+    read_time   = models.TimeField(blank=True, null=True)
     updated     = models.DateTimeField("Fecha de Actualización",auto_now=True, auto_now_add=False)
     timestamp   = models.DateTimeField("Fecha de creación",auto_now=False, auto_now_add=True)
     author      = models.ForeignKey( 
@@ -103,5 +105,10 @@ def create_slug(instance, new_slug=None):
 def pre_save_post_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = create_slug(instance)
+
+    if instance.content:
+        html_string     = instance.get_markdown()
+        read_time_var   = get_read_time(html_string)
+        instance.read_time = read_time_var
 
 pre_save.connect(pre_save_post_receiver, sender=Post)

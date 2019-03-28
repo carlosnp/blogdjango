@@ -11,7 +11,6 @@ from django.db.models import Q
 # Project
 from .models import Post
 from .forms import PostForm
-from .utils import count_words, get_read_time
 from comments.forms import CommentForm
 from comments.models import Comment
 
@@ -49,8 +48,6 @@ def posts_detail(request, id):
 	share_string = quote_plus(instance.content)
 	
 	# Contador de palabras
-	#print(get_read_time(instance.content))
-	print(get_read_time(instance.get_markdown()))
 
 	# Base de Datos inicial
 	initial_data = {
