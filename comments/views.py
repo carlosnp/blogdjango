@@ -1,4 +1,5 @@
 # Django
+from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -8,10 +9,20 @@ from .models import Comment
 from comments.forms import CommentForm
 
 def comment_detail(request, id):
-	template_name = 'comment_detail.html'
-	obj = get_object_or_404(Comment, id = id)
-	form = CommentForm(request.POST or None)
+	template_name 	= 'comment_detail.html'
+	obj 			= get_object_or_404(Comment, id = id)
+	content_object	= obj.content_object
+	content_id		= obj.content_object.id
 
+	# Base de Datos inicial
+	initial_data 	= {
+		"content_type": obj.content_type,
+		"object_id": obj.object_id,
+	}
+
+	# Formulario de comentarios
+	form = CommentForm(request.POST or None, initial=initial_data)
+	# Si el formulario es valido
 	if form.is_valid():
 		print(form.cleaned_data)
 		c_type 			= form.cleaned_data.get("content_type")
@@ -39,7 +50,7 @@ def comment_detail(request, id):
 										parent = parent_obj
 										)
 		if created:
-			messages.success(request, "Añadiste un comentario al POST: %s" % instance.title)
+			messages.success(request, "Añadiste un comentario al POST")
 
 		return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
 

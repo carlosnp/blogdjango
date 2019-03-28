@@ -1,5 +1,6 @@
 # Django
 from django.db import models
+from django.urls import reverse
 from django.conf import settings
 from django.utils import timezone
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -63,7 +64,9 @@ class Comment(models.Model):
 	
 	def __str__(self):
 		return str(self.author.username)
-
+	# URL de los comentarios
+	def get_absolute_url(self):
+		return reverse("comments:detail", kwargs={"id":self.id})
 	# Definimos los Hijos de los comentarios
 	def children(self):
 		return Comment.objects.filter(parent=self)

@@ -205,6 +205,7 @@
 								via & {{ comment.author|capfirst }}  |  {{ comment.timestamp|timesince }}
 								{% if comment.children.count > 0 %}| {{ comment.children.count }} Comentario{% endif %}{% if comment.children.count > 1 %}s{% endif %}
 								| <a href="#" class="comment_reply_btn" style="color:#007bff;">Responder</a>
+								| <a href='{{ comment.get_absolute_url }}'>Detalles</a>
 							</small>
 							<!-- Replica de Comentarios -->
 							<div class="comment_reply" style="display:none;">
