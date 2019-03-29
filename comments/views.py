@@ -8,6 +8,21 @@ from django.contrib import messages
 from .models import Comment
 from comments.forms import CommentForm
 
+# Eliminar comentario
+def comment_delete(request, id):
+	obj 			= get_object_or_404(Comment, id = id)
+	template_name 	= "comment_confirm_delete.html"
+	if request.method == "POST":
+		parent_obj_url = obj.content_object.get_absolute_url()
+		obj.delete()
+		messages.success(request, "Ha sido Eliminado un comentario.")
+		return HttpResponseRedirect(parent_obj_url)
+	context = {
+		"object": obj,
+	}
+	return render(request, template_name, context)
+
+# Detalles de los comentarios
 def comment_detail(request, id):
 	template_name 	= 'comment_detail.html'
 	obj 			= get_object_or_404(Comment, id = id)

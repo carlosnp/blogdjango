@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load urlify %}
+{% load crispy_forms_tags %}
+{% block title %} {{block.super}} | Confirm Delete Comment {% endblock %}
+
+{% block content %}
+
+	<div style="margin: 20px 0;">				
+		<form action="." method="POST">
+			{% csrf_token %}
+			<h4> Deseas eliminar el comentario 
+				<small style="color:grey;">
+					"{{ object.content }}"
+				</small>? 
+			</h4>
+			<div style="margin: 20px 20px;">
+				<input type="submit" value="Eliminar Comentario" class="btn btn-warning">
+				<a href="{{ object.get_absolute_url }}" class="btn btn-primary btn-sm">Cancelar</a>
+			</div>
+		</form>
+	</div>
+
+{% endblock content %}
