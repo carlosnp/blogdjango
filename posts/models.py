@@ -47,7 +47,7 @@ class Post(models.Model):
     content     = models.TextField("Contenido")
     draf        = models.BooleanField("Borrador", default=False)
     publish     = models.DateField("Publicar", auto_now=False, auto_now_add=False)
-    read_time   = models.TimeField(blank=True, null=True)
+    read_time   = models.IntegerField(default=0) #models.TimeField(blank=True, null=True) # Asume minutos
     updated     = models.DateTimeField("Fecha de Actualización",auto_now=True, auto_now_add=False)
     timestamp   = models.DateTimeField("Fecha de creación",auto_now=False, auto_now_add=True)
     author      = models.ForeignKey( 

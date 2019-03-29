@@ -97,7 +97,7 @@
 					</p>
 					<p class="card-text">
 						<small> Tiempo de Lectura: 
-							{% if instance.read_time|time:"i" <= "01" %} < 1 minuto
+							{% if instance.read_time|time:"i" <= "1" %} < 1 minuto
 							{% elif instance.read_time|time:"i" < "10" %} < 10 minutos
 							{% else %} {{ instance.read_time|time:"i" }} minutos
 							{% endif %}
