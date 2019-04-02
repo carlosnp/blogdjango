@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,10 +41,14 @@ INSTALLED_APPS = [
     'pagedown',
     'markdown_deux',
     'crispy_forms',
-    # Local APP
+]
+
+PROJECT_APPS = [
     'comments',
     'posts',
 ]
+
+INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
