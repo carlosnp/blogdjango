@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+<!-- Crispy Forms -->
+{% load crispy_forms_tags %}
+
+<!-- Titulo -->
+{% block title %} {{block.super}} | Login {% endblock %}
+
+<!-- Contenido del formulario -->
+{% block content %}
+<div class="row" style="margin: 10px auto; display: grid; align-items: center; position: inherit; width: 50%;">
+    <div>
+        <form 
+        action="" 
+        method="POST" 
+        enctype="multipart/form-data">
+        <h1> {{ title }} </h1>
+        <hr>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" 
+            class="btn btn-primary" 
+            value="{{ title }}">
+        </form>
+    </div>
+</div>
+{% endblock content %}

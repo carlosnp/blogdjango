@@ -19,7 +19,7 @@ def comment_delete(request, id):
 		obj = Comment.objects.get(id=id)
 	except:
 		raise Http404
-
+	
 	if obj.author != request.user:
 		# Metodo 1
 		#messages.success(request, "No tienes permisos para ver esto.")
