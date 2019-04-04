@@ -28,6 +28,7 @@ def comment_delete(request, id):
 		response = HttpResponse("No tienes permisos para ver esto.")
 		response.status_code = 403
 		return response
+		#return render(request, template_name, context, status_code = 403)
 
 	if request.method == "POST":
 		parent_obj_url = obj.content_object.get_absolute_url()

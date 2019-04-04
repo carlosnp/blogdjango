@@ -67,6 +67,9 @@ class Comment(models.Model):
 	# URL de los comentarios
 	def get_absolute_url(self):
 		return reverse("comments:detail", kwargs={"id":self.id})
+	# URL para eliminar los comentarios	
+	def get_delete_url(self):	
+		return reverse("comments:delete", kwargs={"id":self.id})
 	# Definimos los Hijos de los comentarios
 	def children(self):
 		return Comment.objects.filter(parent=self)

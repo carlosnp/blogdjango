@@ -34,6 +34,8 @@ style="margin-left: 0px; margin-right: 30px; padding-top: 10px;background-color:
 					<small style="color:#483f3f; margin: 0 20px">
 						via & {{ comment.author|capfirst }}  |  {{ comment.timestamp|timesince }}
 						{% if comment.children.count > 0 %}| {{ comment.children.count }} Comentario{% endif %}{% if comment.children.count > 1 %}s |{% endif %}
+						<!-- Los usuarios solo podran eliminar los comentarios que ellos crearon -->
+						{% if request.user == comment.author %} |  <a href="{{ comment.get_delete_url }}">Eliminar</a> {% endif %}
 					</small>
 					<!-- Replica de Comentario -->
 					<div>
@@ -42,7 +44,12 @@ style="margin-left: 0px; margin-right: 30px; padding-top: 10px;background-color:
 								<p> {{ child_comment.content }} </p>
 								<p>
 									<small style="color:#007bff;">
-										via & {{ child_comment.author|capfirst }}  |  {{ child_comment.timestamp|timesince }} 
+										via & {{ child_comment.author|capfirst }}  
+										|  {{ child_comment.timestamp|timesince }}
+										<!-- Los usuarios solo podran eliminar los comentarios que ellos crearon -->
+										{% if request.user == child_comment.author %} 
+											|  <a href="{{ child_comment.get_delete_url }}">Eliminar</a> 
+										{% endif %}			 
 									</small>
 								</p>
 							</blockquote>
