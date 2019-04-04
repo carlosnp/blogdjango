@@ -10,8 +10,25 @@ from comments.forms import CommentForm
 
 # Eliminar comentario
 def comment_delete(request, id):
-	obj 			= get_object_or_404(Comment, id = id)
 	template_name 	= "comment_confirm_delete.html"
+	#obj 			= get_object_or_404(Comment, id = id)
+
+	# Delete Permissions
+	#obj = Comment.objects.get(id=id)
+	try:
+		obj = Comment.objects.get(id=id)
+	except:
+		raise Http404
+
+	if obj.author != request.user:
+		# Metodo 1
+		#messages.success(request, "No tienes permisos para ver esto.")
+		#raise Http404
+		# Metodo 2
+		response = HttpResponse("No tienes permisos para ver esto.")
+		response.status_code = 403
+		return response
+
 	if request.method == "POST":
 		parent_obj_url = obj.content_object.get_absolute_url()
 		obj.delete()
@@ -25,7 +42,19 @@ def comment_delete(request, id):
 # Detalles de los comentarios
 def comment_detail(request, id):
 	template_name 	= 'comment_detail.html'
-	obj 			= get_object_or_404(Comment, id = id)
+	#obj 			= get_object_or_404(Comment, id = id)
+
+	# Delete Permissions
+	#obj = Comment.objects.get(id=id)
+	try:
+		obj = Comment.objects.get(id=id)
+	except:
+		raise Http404
+
+	#Si el objeto no es el padre
+	if not obj.is_parent:
+		obj = obj.parent
+
 	content_object	= obj.content_object
 	content_id		= obj.content_object.id
 
