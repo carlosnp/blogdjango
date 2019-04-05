@@ -16,11 +16,17 @@ from comments.models import Comment
 
 def posts_create(request):
 	template_name = 'post_create.html'
+	
 	print(request.user.is_staff)
 	print(request.user.is_superuser)
 	print(request.user.is_active)
+	
+	# Permisos para crear posts
 	if not request.user.is_staff or not request.user.is_superuser:
-		raise Http404
+		#raise Http404
+		template_names 	= "403.html"
+		contextdata = {}
+		return render(request, template_names, contextdata, status = 403)
 	
 	form = PostForm(request.POST or None, request.FILES or None)
 	
@@ -45,7 +51,10 @@ def posts_detail(request, id):
 	# permite ver los post que son borradores y su fecha de publicacion es mayor a la actual
 	if instance.draf or instance.publish > timezone.now().date():
 		if not request.user.is_staff or not request.user.is_superuser:
-			raise Http404
+			#raise Http40
+			template_names 	= "404.html"
+			contextdata = {}
+			return render(request, template_names, contextdata, status = 404)
 	
 	share_string = quote_plus(instance.content)
 	
@@ -141,12 +150,20 @@ def posts_list(request):
 	return render(request, template_name, context)
 
 def posts_update(request, id=None):
-    
-    if not request.user.is_staff or not request.user.is_superuser:
-    	raise Http404
-    
     template_name = 'post_create.html'
     instance = get_object_or_404(Post, id = id)
+    
+    if not request.user.is_staff or not request.user.is_superuser:
+    	#raise Http404
+    	template_names 	= "403.html"
+    	contextdata = {}
+    	return render(request, template_names, contextdata, status = 403)
+    # Si el usuario y el autor del posts no coninciden
+    if instance.author != request.user:
+    	template_name 	= "403.html"
+    	context = {}
+    	return render(request, template_name, context, status = 403)
+    
     form = PostForm(request.POST or None, request.FILES or None, instance=instance)
     
     if form.is_valid():
@@ -165,6 +182,12 @@ def posts_update(request, id=None):
 
 def posts_delete(request, id=None):
 	instance = get_object_or_404(Post, id = id)
+
+	if instance.author != request.user:
+		template_name 	= "403.html"
+		context = {}
+		return render(request, template_name, context, status = 403)
+
 	instance.delete()
 	messages.success(request, "Eliminaste el Post: %s" % instance.title)
 	return redirect("posts:list")
