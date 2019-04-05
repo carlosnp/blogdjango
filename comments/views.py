@@ -77,7 +77,7 @@ def comment_detail(request, id):
 	# Formulario de comentarios
 	form = CommentForm(request.POST or None, initial=initial_data)
 	# Si el formulario es valido
-	if form.is_valid():
+	if form.is_valid() and request.user.is_authenticated():
 		print(form.cleaned_data)
 		c_type 			= form.cleaned_data.get("content_type")
 		content_type 	= ContentType.objects.get(model=c_type)
