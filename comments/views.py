@@ -3,12 +3,13 @@ from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
 # Project
 from .models import Comment
 from comments.forms import CommentForm
 
 # Eliminar comentario
+@login_required(login_url='accounts:login')
 def comment_delete(request, id):
 	template_name 	= "comment_confirm_delete.html"
 	#obj 			= get_object_or_404(Comment, id = id)
