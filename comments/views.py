@@ -19,7 +19,10 @@ def comment_delete(request, id):
 	try:
 		obj = Comment.objects.get(id=id)
 	except:
-		raise Http404
+		#raise Http404
+		template_names 	= "404.html"
+		contextdata = {}
+		return render(request, template_names, contextdata, status = 404)
 	
 	if obj.author != request.user:
 		# Metodo 1
@@ -53,7 +56,10 @@ def comment_detail(request, id):
 	try:
 		obj = Comment.objects.get(id=id)
 	except:
-		raise Http404
+		#raise Http404
+		template_names 	= "404.html"
+		contextdata = {}
+		return render(request, template_names, contextdata, status = 404)
 
 	#Si el objeto no es el padre
 	if not obj.is_parent:

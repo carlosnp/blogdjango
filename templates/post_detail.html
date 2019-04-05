@@ -146,6 +146,7 @@
 					<h4> Comentar el Post: {{ instance.title|capfirst }} </h4>
 				</div>
 				<!-- Crea Comentarios -->
+				{% if request.user.is_authenticated %}
 				<div class="modal-body">
 					<form action="." method="POST">
 						{% csrf_token %}
@@ -155,6 +156,10 @@
 						<button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cerrar</button>
 					</form>
 				</div>
+				{% else %}
+					<p> Debes iniciar sesión para crear un comentario </p>
+					<button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Cerrar</button>
+				{% endif %}
 			</div>
 		</div>
 	</div>
@@ -176,6 +181,7 @@
 					</div>
 					<!-- Crea Comentarios -->
 					<div class="modal-body">
+						{% if request.user.is_authenticated %}
 						<form action="." method="POST">
 							{% csrf_token %}
 							{{ comment_form|crispy }}
@@ -184,6 +190,9 @@
 							class="btn btn-primary">
 							<button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cerrar</button>
 						</form>
+						{% else %}
+							<p> Debes iniciar sesión para crear un comentario </p>
+						{% endif %}
 					</div>
 				</div>
 			</div>
@@ -227,7 +236,8 @@
 										</p>
 									</blockquote>
 								{% endfor %}
-								<div class="container">				
+								<div class="container">
+									{% if request.user.is_authenticated %}
 									<form action="." method="POST">
 										{% csrf_token %}
 										{{ comment_form|crispy }}
@@ -235,6 +245,9 @@
 										<input type="submit" value="Replicar Comentario"
 										class="btn btn-primary">
 									</form>
+									{% else %}
+										<p> Debes iniciar sesión para crear un comentario </p>
+									{% endif %}
 								</div>
 							</div>
 						</blockquote>

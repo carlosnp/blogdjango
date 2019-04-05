@@ -17,10 +17,6 @@ from comments.models import Comment
 def posts_create(request):
 	template_name = 'post_create.html'
 	
-	print(request.user.is_staff)
-	print(request.user.is_superuser)
-	print(request.user.is_active)
-	
 	# Permisos para crear posts
 	if not request.user.is_staff or not request.user.is_superuser:
 		#raise Http404
@@ -67,8 +63,7 @@ def posts_detail(request, id):
 	}
 	# Crea comentarios
 	form = CommentForm(request.POST or None, initial=initial_data)
-	if form.is_valid():
-		print(form.cleaned_data)
+	if form.is_valid() and request.user.is_authenticated():
 		c_type 			= form.cleaned_data.get("content_type")
 		content_type 	= ContentType.objects.get(model=c_type)
 		obj_id 			= form.cleaned_data.get("object_id")
