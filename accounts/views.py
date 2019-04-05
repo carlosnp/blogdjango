@@ -10,6 +10,7 @@ from .forms import UserLoginForm, UserRegisterForm
 
 def loginView(request):
 	template_name = "loginform.html"
+	next = request.GET.get("next")
 	title = "Iniciar Sesión" # Login
 	form = UserLoginForm(request.POST or None)
 	# Si el formulario es valido
@@ -18,6 +19,8 @@ def loginView(request):
 		password = form.cleaned_data.get("password")
 		user	 = authenticate(username=username, password=password)
 		login(request, user)
+		if next:
+			return redirect(next)
 		return redirect("posts:list")
 	# Context Data
 	context = {
@@ -28,6 +31,7 @@ def loginView(request):
 
 def registerView(request):
 	template_name = "loginform.html"
+	next = request.GET.get("next")
 	title = "Registro de Usuario"
 	form = UserRegisterForm(request.POST or None)
 	# Verificamos si el formulario es valido
@@ -39,6 +43,8 @@ def registerView(request):
 		user.save()
 		new_user = authenticate(username=user.username, password=password)
 		login(request, new_user)
+		if next:
+			return redirect(next)
 		return redirect("posts:list")
 	# Context Data
 	context = {
