@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 # Project
 from .models import Post
@@ -14,15 +15,16 @@ from .forms import PostForm
 from comments.forms import CommentForm
 from comments.models import Comment
 
+@login_required(login_url='accounts:login')
 def posts_create(request):
 	template_name = 'post_create.html'
 	
 	# Permisos para crear posts
-	if not request.user.is_staff or not request.user.is_superuser:
-		#raise Http404
-		template_names 	= "403.html"
-		contextdata = {}
-		return render(request, template_names, contextdata, status = 403)
+	# if not request.user.is_staff or not request.user.is_superuser:
+	# 	#raise Http404
+	# 	template_names 	= "403.html"
+	# 	contextdata = {}
+	# 	return render(request, template_names, contextdata, status = 403)
 	
 	form = PostForm(request.POST or None, request.FILES or None)
 	
@@ -63,7 +65,7 @@ def posts_detail(request, id):
 	}
 	# Crea comentarios
 	form = CommentForm(request.POST or None, initial=initial_data)
-	if form.is_valid() and request.user.is_authenticated():
+	if form.is_valid() and request.user.is_authenticated:
 		c_type 			= form.cleaned_data.get("content_type")
 		content_type 	= ContentType.objects.get(model=c_type)
 		obj_id 			= form.cleaned_data.get("object_id")
@@ -144,15 +146,17 @@ def posts_list(request):
 	}	
 	return render(request, template_name, context)
 
+@login_required(login_url='accounts:login')
 def posts_update(request, id=None):
     template_name = 'post_create.html'
     instance = get_object_or_404(Post, id = id)
     
-    if not request.user.is_staff or not request.user.is_superuser:
-    	#raise Http404
-    	template_names 	= "403.html"
-    	contextdata = {}
-    	return render(request, template_names, contextdata, status = 403)
+    # if not request.user.is_staff or not request.user.is_superuser:
+    # 	#raise Http404
+    # 	template_names 	= "403.html"
+    # 	contextdata = {}
+    # 	return render(request, template_names, contextdata, status = 403)
+
     # Si el usuario y el autor del posts no coninciden
     if instance.author != request.user:
     	template_name 	= "403.html"
@@ -175,6 +179,7 @@ def posts_update(request, id=None):
     }
     return render(request, template_name, context)
 
+@login_required(login_url='accounts:login')
 def posts_delete(request, id=None):
 	instance = get_object_or_404(Post, id = id)
 

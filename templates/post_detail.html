@@ -3,10 +3,11 @@
 {% load crispy_forms_tags %}
 {% block title %} {{block.super}} | Post Detail {% endblock %}
 
-<style> 
-	{% block style %}
-	{% endblock style %} 
-</style>
+{% block post_username %}
+<li class="nav-item">
+	<a class="btn btn-outline-success" href="{% url 'posts:list' %}"> {{ instance.title|truncatechars:20 }} </a>
+</li>
+{% endblock post_username %}
 
 {% block content %}
 	<!-- Encabezado -->
