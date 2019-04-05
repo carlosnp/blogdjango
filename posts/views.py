@@ -15,11 +15,13 @@ from comments.forms import CommentForm
 from comments.models import Comment
 
 def posts_create(request):
-	
+	template_name = 'post_create.html'
+	print(request.user.is_staff)
+	print(request.user.is_superuser)
+	print(request.user.is_active)
 	if not request.user.is_staff or not request.user.is_superuser:
 		raise Http404
 	
-	template_name = 'post_create.html'
 	form = PostForm(request.POST or None, request.FILES or None)
 	
 	if form.is_valid():

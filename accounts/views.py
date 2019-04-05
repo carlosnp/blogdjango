@@ -11,7 +11,6 @@ from .forms import UserLoginForm, UserRegisterForm
 def loginView(request):
 	template_name = "loginform.html"
 	title = "Iniciar Sesión" # Login
-	print(request.user.is_authenticated)
 	form = UserLoginForm(request.POST or None)
 	# Si el formulario es valido
 	if form.is_valid():
@@ -19,7 +18,7 @@ def loginView(request):
 		password = form.cleaned_data.get("password")
 		user	 = authenticate(username=username, password=password)
 		login(request, user)
-		print(request.user.is_authenticated)
+		return redirect("posts:list")
 	# Context Data
 	context = {
 		"title": title,
@@ -31,6 +30,17 @@ def registerView(request):
 	template_name = "loginform.html"
 	title = "Registro de Usuario"
 	form = UserRegisterForm(request.POST or None)
+	# Verificamos si el formulario es valido
+	if form.is_valid():
+		user = form.save(commit=False)
+		password = form.cleaned_data.get('password')
+		user.set_password(password)
+		# Guardamos la informacion del usuario
+		user.save()
+		new_user = authenticate(username=user.username, password=password)
+		login(request, new_user)
+		return redirect("posts:list")
+	# Context Data
 	context = {
 		"title": title,
 		"form": form
@@ -38,7 +48,7 @@ def registerView(request):
 	return render(request, template_name, context)
 
 def logoutView(request):
-	template_name = "loginform.html"
-	context = {}
+	#template_name = "/"
+	#context = {}
 	logout(request)
-	return render(request, template_name, context)
+	return redirect("posts:list")
