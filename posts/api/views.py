@@ -1,5 +1,5 @@
 # Django
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 # Project
 from posts.models import Post
 from .serializers import PostListSerializers, PostDetailSerializers
@@ -15,3 +15,15 @@ class PostDetailAPIView(RetrieveAPIView):
 	serializer_class = PostDetailSerializers
 	#lookup_field = 'slug'
 	#lookup_url_kwarg = 'abc'
+
+# Actualizar el post
+class PostUpdateAPIView(UpdateAPIView):
+	queryset = Post.objects.all()
+	serializer_class = PostDetailSerializers
+	#lookup_field = 'slug'
+
+# Eliminar el post
+class PostDeleteAPIView(DestroyAPIView):
+	queryset = Post.objects.all()
+	serializer_class = PostDetailSerializers
+	#lookup_field = 'slug'
