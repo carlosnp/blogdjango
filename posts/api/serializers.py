@@ -3,8 +3,13 @@ from rest_framework.serializers import ModelSerializer
 # Project
 from posts.models import Post
 
-class PostSerializers(ModelSerializer):
+class PostListSerializers(ModelSerializer):
 	class Meta:
 		model = Post
-		fields = ["id","title", "content", "image", "draf", "publish","author"]
+		fields = ["title", "content", "image", "draf", "publish","author"]
+
+class PostDetailSerializers(ModelSerializer):
+	class Meta:
+		model = Post
+		fields = ["id","title", "slug", "content", "image", "draf", "publish", "updated", "read_time","author"]
 
