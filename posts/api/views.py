@@ -1,28 +1,34 @@
 # Django
-from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 # Project
 from posts.models import Post
-from .serializers import PostListSerializers, PostDetailSerializers
+from .serializers import PostListSerializers, PostDetailSerializers, PostCreateUpdateSerializers
 
 # Lista de post
 class PostListAPIView(ListAPIView):
 	queryset = Post.objects.all()
 	serializer_class = PostListSerializers
 
-# Detalles del post
+# Create post
+class PostCreateAPIView(CreateAPIView):
+	queryset = Post.objects.all()
+	serializer_class = PostCreateUpdateSerializers
+	#lookup_field = 'slug'
+
+# Retrieve post
 class PostDetailAPIView(RetrieveAPIView):
 	queryset = Post.objects.all()
 	serializer_class = PostDetailSerializers
 	#lookup_field = 'slug'
 	#lookup_url_kwarg = 'abc'
 
-# Actualizar el post
+# Update post
 class PostUpdateAPIView(UpdateAPIView):
 	queryset = Post.objects.all()
-	serializer_class = PostDetailSerializers
+	serializer_class = PostCreateUpdateSerializers
 	#lookup_field = 'slug'
 
-# Eliminar el post
+# Destroy post
 class PostDeleteAPIView(DestroyAPIView):
 	queryset = Post.objects.all()
 	serializer_class = PostDetailSerializers
