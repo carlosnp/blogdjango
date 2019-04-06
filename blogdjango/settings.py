@@ -41,6 +41,7 @@ DJANGO_APPS = [
     'pagedown',
     'markdown_deux',
     'crispy_forms',
+    'rest_framework',
 ]
 
 PROJECT_APPS = [
