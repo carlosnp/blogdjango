@@ -6,7 +6,12 @@
 {% block content %}
 	<div style="margin: 10px auto; padding: 20px; width: 50%;">
     	<h1 style="font-size: 10vw;">Error 404</h1>
-    	<p style="font-size: 2vw;">No Existe la página que intentas consultar</p>
+    	{% if detail_comment %}
+    		<p style="font-size: 2vw; color: blue;"> {{ detail_comment }}</p>
+    	{% else %}
+    		<p style="font-size: 2vw;">No Existe la página que intentas consultar</p>
+    	{% endif %}
+    	<p>Lo siento!!!</p>
 	</div>
 {% endblock content %}
     

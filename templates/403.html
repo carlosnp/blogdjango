@@ -6,6 +6,33 @@
 {% block content %}
 	<div style="margin: 10px auto; padding: 20px; width: 50%;">
     	<h1 style="font-size: 10vw;">Error 403</h1>
-    	<p style="font-size: 2vw;">No Tienes los permisos necesarios!!!</p>
+    	{% if detail_comment %}
+    		<p style="font-size: 2vw; color: red;"> {{ detail_comment }} </p>
+    		<p style="font-size: 2vw; color: grey;"> 
+    			<b style="color: blue;"> {{ userlogin|capfirst }} </b> 
+    		</p>
+    		{% if editall %}
+    		<p style="font-size: 2vw; color: grey;"> 
+    			No creaste 
+    			<b style="color: blue;"> "{{ content_text }}" </b>
+    		</p>
+    		<p style="font-size: 2vw; color: grey;">
+    			No lo puedes Editar 
+    		</p>
+    		{% endif %}
+    		{% if deleteall %}	
+	    		<p style="font-size: 2vw; color: grey;">
+	    			No creaste
+	    			<b style="color: blue;"> 
+	    				<small> "{{ content_text }}" </small>
+	    			</b>
+	    		</p>
+	    		<p style="font-size: 2vw; color: grey;">
+    				No lo puedes Eliminar 
+    			</p>
+    		{% endif %}
+    	{% else %}
+    		<p style="font-size: 2vw;">No Tienes los permisos necesarios!!!</p>
+    	{% endif %}
 	</div>
 {% endblock content %}

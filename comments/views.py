@@ -21,7 +21,10 @@ def comment_delete(request, id):
 	except:
 		#raise Http404
 		template_names 	= "404.html"
-		contextdata = {}
+		detail_comment = "No Existe el comentario que intentas Eliminar"
+		contextdata = {
+			"detail_comment": detail_comment,
+		}
 		return render(request, template_names, contextdata, status = 404)
 	
 	if obj.author != request.user:
@@ -33,8 +36,15 @@ def comment_delete(request, id):
 		#response.status_code = 403
 		#return response
 		template_name 	= "403.html"
-		context = {}
-		return render(request, template_name, context, status = 403)
+		detail_comment = "Opsss!!!"
+		content_text = obj.content
+		contextdata = {
+			"detail_comment": detail_comment,
+			"userlogin": request.user,
+			"content_text": content_text,
+			"deleteall": True,
+		}
+		return render(request, template_name, contextdata, status = 403)
 
 	if request.method == "POST":
 		parent_obj_url = obj.content_object.get_absolute_url()
@@ -58,7 +68,10 @@ def comment_detail(request, id):
 	except:
 		#raise Http404
 		template_names 	= "404.html"
-		contextdata = {}
+		detail_comment = "El comentario que buscas no existe"
+		contextdata = {
+			"detail_comment": detail_comment,
+		}
 		return render(request, template_names, contextdata, status = 404)
 
 	#Si el objeto no es el padre

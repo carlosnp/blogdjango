@@ -44,7 +44,17 @@ def posts_create(request):
 def posts_detail(request, id):
 	
 	template_name = 'post_detail.html'
-	instance = get_object_or_404(Post, id = id)
+	# instance = get_object_or_404(Post, id = id)
+	try:
+		instance = Post.objects.get(id=id)
+	except:
+		#raise Http404
+		template_names 	= "404.html"
+		detail_comment = "El post que buscas no existe"
+		contextdata = {
+			"detail_comment": detail_comment,
+		}
+		return render(request, template_names, contextdata, status = 404)
 	
 	# permite ver los post que son borradores y su fecha de publicacion es mayor a la actual
 	if instance.draf or instance.publish > timezone.now().date():
@@ -160,8 +170,15 @@ def posts_update(request, id=None):
     # Si el usuario y el autor del posts no coninciden
     if instance.author != request.user:
     	template_name 	= "403.html"
-    	context = {}
-    	return render(request, template_name, context, status = 403)
+    	detail_comment = "Opsss!!!"
+    	content_text = instance.title
+    	contextdata = {
+    		"detail_comment": detail_comment,
+			"content_text": content_text,
+			"userlogin": request.user,
+			"editall": True,
+		}
+    	return render(request, template_name, contextdata, status = 403)
     
     form = PostForm(request.POST or None, request.FILES or None, instance=instance)
     
@@ -185,8 +202,15 @@ def posts_delete(request, id=None):
 
 	if instance.author != request.user:
 		template_name 	= "403.html"
-		context = {}
-		return render(request, template_name, context, status = 403)
+		detail_comment = "Opsss!!!"
+		content_text = instance.title
+		contextdata = {
+			"detail_comment": detail_comment,
+			"userlogin": request.user,
+			"content_text": content_text,
+			"deleteall": True,
+		}
+		return render(request, template_name, contextdata, status = 403)
 
 	instance.delete()
 	messages.success(request, "Eliminaste el Post: %s" % instance.title)
