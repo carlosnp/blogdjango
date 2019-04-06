@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('posts.urls', namespace="posts")),
+    path('api/posts/', include('posts.api.urls', namespace="posts_api")),
     path('comments/', include('comments.urls', namespace="comments")),
     path('accounts/', include('accounts.urls', namespace="accounts")),
     path('404/',  django.views.defaults.page_not_found, kwargs={'exception': Exception('Page Not Found!')},name='Error404'),
