@@ -21,7 +21,7 @@ def comment_delete(request, id):
 	except:
 		#raise Http404
 		template_names 	= "404.html"
-		detail_comment = "No Existe el comentario que intentas Eliminar"
+		detail_comment = "No Existe el comentario que deseas Eliminar"
 		contextdata = {
 			"detail_comment": detail_comment,
 		}

@@ -159,7 +159,17 @@ def posts_list(request):
 @login_required(login_url='accounts:login')
 def posts_update(request, id=None):
     template_name = 'post_create.html'
-    instance = get_object_or_404(Post, id = id)
+    
+    #instance = get_object_or_404(Post, id = id)
+    try:
+    	instance = Post.objects.get(id=id)
+    except:
+    	template_names 	= "404.html"
+    	detail_comment = "El Post que buscas no existe"
+    	contextdata = {
+    		"detail_comment": detail_comment,
+    	}
+    	return render(request, template_names, contextdata, status = 404)
     
     # if not request.user.is_staff or not request.user.is_superuser:
     # 	#raise Http404
@@ -198,7 +208,17 @@ def posts_update(request, id=None):
 
 @login_required(login_url='accounts:login')
 def posts_delete(request, id=None):
-	instance = get_object_or_404(Post, id = id)
+	#instance = get_object_or_404(Post, id = id)
+	try:
+		instance = Post.objects.get(id=id)
+	except:
+		#raise Http404
+		template_names 	= "404.html"
+		detail_comment = "No Existe el post que deseas Eliminar"
+		contextdata = {
+			"detail_comment": detail_comment,
+		}
+		return render(request, template_names, contextdata, status = 404)
 
 	if instance.author != request.user:
 		template_name 	= "403.html"
