@@ -1,8 +1,12 @@
 # Django
 from django.db.models import Q
+# Vistas Django Rest Framework
 from rest_framework.generics import (ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, 
 									RetrieveUpdateAPIView, RetrieveDestroyAPIView)
+# Permisos Django Rest Framework
 from rest_framework.permissions import (AllowAny, IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly)
+# Filtros Django Rest Framework
+from rest_framework.filters import (SearchFilter, OrderingFilter)
 
 # Project
 from posts.models import Post
@@ -12,6 +16,10 @@ from .permissions import IsOwnerOrReadOnly
 # Lista de post
 class PostListAPIView(ListAPIView):
 	serializer_class = PostListSerializers
+	# Filtros
+	filter_backends = (SearchFilter, OrderingFilter)
+	search_fields = ('author__username', 'title', 'content')
+	ordering_fields = ('title', 'content')
 
 	def get_queryset(self, *args, **kwargs):
 		queryset_list = Post.objects.all()
