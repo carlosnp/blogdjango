@@ -1,4 +1,5 @@
 # Django
+from django.db.models import Q
 from rest_framework.generics import (ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, 
 									RetrieveUpdateAPIView, RetrieveDestroyAPIView)
 from rest_framework.permissions import (AllowAny, IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly)
@@ -10,8 +11,25 @@ from .permissions import IsOwnerOrReadOnly
 
 # Lista de post
 class PostListAPIView(ListAPIView):
-	queryset = Post.objects.all()
 	serializer_class = PostListSerializers
+
+	def get_queryset(self, *args, **kwargs):
+		queryset_list = Post.objects.all()
+		# queryset_list = super(PostListAPIView, self).get_queryset(*args, **kwargs)
+
+		# Buscar en la lista de POST
+		query = self.request.GET.get("q")
+		if query:
+			# Filtro de busqueda
+			queryset_list = queryset_list.filter(
+				Q(title__icontains=query) |
+				Q(content__icontains=query) |
+				Q(author__first_name__icontains=query) |
+				Q(author__last_name__icontains=query) |
+				Q(author__username__icontains=query)
+				).distinct()
+		return queryset_list
+
 
 # Create post
 class PostCreateAPIView(CreateAPIView):

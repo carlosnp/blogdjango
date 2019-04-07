@@ -125,7 +125,7 @@ def posts_list(request):
 	# si es un usuario o un superusuario mostrara todos los posts
 	if request.user.is_staff or request.user.is_superuser:
 		queryset_list = Post.objects.all()		
-	# Buscador
+	# Buscar en la lista de POST
 	query = request.GET.get("q")
 	if query:
 		# Filtro de busqueda
