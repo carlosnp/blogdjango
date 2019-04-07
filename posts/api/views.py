@@ -7,19 +7,24 @@ from rest_framework.generics import (ListAPIView, CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import (AllowAny, IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly)
 # Filtros Django Rest Framework
 from rest_framework.filters import (SearchFilter, OrderingFilter)
+# Paginacion Django Rest Framework
+from rest_framework.pagination import (LimitOffsetPagination, PageNumberPagination,)
 
 # Project
 from posts.models import Post
 from .serializers import PostListSerializers, PostDetailSerializers, PostCreateUpdateSerializers
 from .permissions import IsOwnerOrReadOnly
+from .pagination import PostLimitOffsetPagination, PostPageNumberPagination
 
 # Lista de post
 class PostListAPIView(ListAPIView):
 	serializer_class = PostListSerializers
 	# Filtros
 	filter_backends = (SearchFilter, OrderingFilter)
-	search_fields = ('author__username', 'title', 'content')
+	search_fields = ('author__username', 'author__first_name', 'author__last_name','title', 'content')
 	ordering_fields = ('title', 'content')
+	# Paginación
+	pagination_class = PostPageNumberPagination
 
 	def get_queryset(self, *args, **kwargs):
 		queryset_list = Post.objects.all()
