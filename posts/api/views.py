@@ -6,6 +6,7 @@ from rest_framework.permissions import (AllowAny, IsAuthenticated, IsAdminUser, 
 # Project
 from posts.models import Post
 from .serializers import PostListSerializers, PostDetailSerializers, PostCreateUpdateSerializers
+from .permissions import IsOwnerOrReadOnly
 
 # Lista de post
 class PostListAPIView(ListAPIView):
@@ -35,7 +36,7 @@ class PostUpdateAPIView(RetrieveUpdateAPIView):
 	queryset = Post.objects.all()
 	serializer_class = PostCreateUpdateSerializers
 	#lookup_field = 'slug'
-	permission_classes = (IsAuthenticated,)
+	permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
 	# Se coloca de autor al usuario que inicie sesion
 	def perform_update(self, serializer):
@@ -46,4 +47,4 @@ class PostDeleteAPIView(RetrieveDestroyAPIView):
 	queryset = Post.objects.all()
 	serializer_class = PostDetailSerializers
 	#lookup_field = 'slug'
-	permission_classes = (IsAuthenticated,)
+	permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
