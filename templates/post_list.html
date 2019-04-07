@@ -70,7 +70,7 @@
 				<div class="card-body">
 					<!-- <h2>  <a href="/posts/{{obj.id}}">  {{ obj.title }} </a> </h2> -->
 					<!-- <h2>  <a href="{% url 'posts:detail' id=obj.id %}">  {{ obj.title }} </a> </h2> -->
-					<h3 class="card-title">  {{ obj.title|upper }} <small style="color:lightslategrey"> {{ obj.timestamp|date:"D d M Y" }} </small> </h3>
+					<h3 class="card-title">  {{ obj.title|upper }} <small style="color:lightslategrey"> {{ obj.publish|date:"D d M Y" }} </small> </h3>
 					{% comment %}
 					<div class="content-markdown"> {{ obj.content|truncatechars:150 }} </div>
 

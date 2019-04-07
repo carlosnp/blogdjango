@@ -11,10 +11,10 @@ class PostListSerializers(ModelSerializer):
 class PostDetailSerializers(ModelSerializer):
 	class Meta:
 		model = Post
-		fields = ["id","title", "slug","content", "image", "draf", "publish", "updated", "read_time","author"]
+		fields = ["id","title", "slug","content", "image", "draf", "timestamp", "publish", "updated", "read_time","author"]
 
 class PostCreateUpdateSerializers(ModelSerializer):
 	class Meta:
 		model = Post
-		fields = ["title", "content", "image", "draf", "publish", "author"]
+		fields = ["title", "content", "image", "draf", "publish"]
 
