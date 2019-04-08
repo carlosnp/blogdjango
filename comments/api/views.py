@@ -42,6 +42,16 @@ class CommentListAPIView(ListAPIView):
 				).distinct()
 		return queryset_list
 
+# Create comentarios
+class CommentCreateAPIView(CreateAPIView):
+	queryset = Comment.objects.all()
+	serializer_class = CommentDetailSerializers
+	permission_classes = (IsAuthenticated,)
+
+	# Se coloca de autor al usuario que inicie sesion
+	def perform_create(self, serializer):
+		serializer.save(author=self.request.user)
+
 # Retrieve Comment
 class CommentDetailAPIView(RetrieveAPIView):
 	queryset = Comment.objects.all()
