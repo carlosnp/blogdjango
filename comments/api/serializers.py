@@ -9,14 +9,14 @@ from comments.models import Comment
 COMMENT_Detail_url = HyperlinkedIdentityField(view_name = 'comments_api:detail',lookup_field = 'pk')
 
 class CommentListSerializers(ModelSerializer):
-    Detail_url = COMMENT_Detail_url
+    #Detail_url = COMMENT_Detail_url
     author = SerializerMethodField()
     reply_count = SerializerMethodField()
     
     class Meta:
         model = Comment
         fields = [
-            "Detail_url",
+            #"Detail_url",
             "id",
             #"object_id",
             #"content_type",
