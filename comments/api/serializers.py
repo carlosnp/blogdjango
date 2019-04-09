@@ -4,7 +4,8 @@ from django.contrib.auth import get_user_model
 # Django Rest Framework
 from rest_framework.serializers import (ModelSerializer, 
                                         HyperlinkedIdentityField, 
-                                        SerializerMethodField)
+                                        SerializerMethodField,
+                                        ValidationError)
 # Project
 from comments.models import Comment
 
@@ -23,36 +24,44 @@ def create_commnet_serializers(model_type='post', slug=None, parent_id=None, aut
                     "parent",
                     "content",
                     "timestamp",        
-                    "author"
+                    # "author"
             ]
+        # Inicializamos la funcion
         def __init__(self, *args, **kwargs):
             self.model_type = model_type
             self.slug = slug
             self.parent_obj = None
-            if self.parent_id:
+            if parent_id:
+                # Verificamos si existe el elemento
                 parent_qs = Comment.objects.filter(id=parent_id)
-                if parent_qs.exist() and parent_qs.count() == 1:
+                if parent_qs.exists() and parent_qs.count() == 1:
                     self.parent_obj = parent_qs.first()
             return super(CommentCreateSerializer, self).__init__(*args, **kwargs)
         
+        # Validamos los datos
         def validate(self, data):
+            # partimos de la dara inicializada en la funcion anterior
             model_type = self.model_type
+            # Verificamos que existe
             model_qs = ContentType.objects.filter(model=model_type)
-            
-            if not model_qs.exist() or model_qs.count() != 1:
-                raise ValidationError("No es un contenido valido")
-            
+            if not model_qs.exists() or model_qs.count() != 1:
+                raise ValidationError("No es un tipo de contenido valido")
+            # Verificamos si existe SLUG en el modelo
             Somemodel = model_qs.first().model_class()
             obj_qs = Somemodel.objects.filter(slug=self.slug)
-            
-            if not obj_qs.exist() or obj_qs.count() != 1:
+            if not obj_qs.exists() or obj_qs.count() != 1:
                 raise ValidationError("No es un slug valido")
-            
+            # Retornamos la data
             return data
 
+        # Metodo para crear el comentario
         def create(sefl, validated_data):
+            # Debemos tener todos los campos que se definieron en la funcion
             content     = validated_data.get("content")
-            user        = User.objects.all().first()
+            if user:
+                main_user = user
+            else:
+                main_user = User.objects.all().first()
             model_type  = self.model_type
             slug        = self.slug
             parent_obj  = self.parent_obj
@@ -60,9 +69,11 @@ def create_commnet_serializers(model_type='post', slug=None, parent_id=None, aut
                                             model_type=model_type, 
                                             slug = slug,
                                             content = content,
-                                            author=user,
+                                            author=main_user,
                                             parent_obj= parent_obj)
+            # Regresamos el comentario
             return comment
+    # Regresamos la clase
     return CommentCreateSerializer
 
 class CommentListSerializers(ModelSerializer):
@@ -121,7 +132,8 @@ class CommentDetailSerializers(ModelSerializer):
             "timestamp",
             "author",
             "reply_count", 
-            "replies"]
+            "replies",
+        ]
     
     def get_author(self, obj):
         return str(obj.author.username)

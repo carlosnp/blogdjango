@@ -12,7 +12,8 @@ from rest_framework.pagination import (LimitOffsetPagination, PageNumberPaginati
 
 # Project
 from comments.models import Comment
-from .serializers import CommentListSerializers, CommentDetailSerializers
+from .serializers import (CommentListSerializers, CommentDetailSerializers, 
+						  create_commnet_serializers)
 from posts.api.permissions import IsOwnerOrReadOnly
 from posts.api.pagination import PostLimitOffsetPagination, PostPageNumberPagination
 
@@ -45,8 +46,18 @@ class CommentListAPIView(ListAPIView):
 # Create comentarios
 class CommentCreateAPIView(CreateAPIView):
 	queryset = Comment.objects.all()
-	serializer_class = CommentDetailSerializers
+	# serializer_class = CommentDetailSerializers
 	permission_classes = (IsAuthenticated,)
+
+	def get_serializer_class(self):
+		model_type 	= self.request.GET.get("type")
+		slug 		= self.request.GET.get("slug")
+		parent_id 	= self.request.GET.get("parent_id", None)
+		return create_commnet_serializers(model_type=model_type, 
+										  slug=slug, 
+										  parent_id=parent_id, 
+										  author=self.request.user
+										  )
 
 	# Se coloca de autor al usuario que inicie sesion
 	def perform_create(self, serializer):
