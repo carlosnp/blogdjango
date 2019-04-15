@@ -6,8 +6,8 @@ from .views import CommentListAPIView, CommentCreateAPIView, CommentDetailAPIVie
 app_name = "comments_api"
 
 urlpatterns = [
-    path('', CommentListAPIView.as_view(), name="list"),
-    path('create/', CommentCreateAPIView.as_view(), name="create"),
-    path('<int:pk>/', CommentDetailAPIView.as_view(), name="detail"),
+    path('', CommentListAPIView.as_view(), name="list"), # Lista de comentarios
+    path('create/', CommentCreateAPIView.as_view(), name="create"), # Crea comentarios
+    path('<int:pk>/', CommentDetailAPIView.as_view(), name="detail"), # Detalles de Comentarios
     #path('<int:id>/delete/', comment_delete, name="delete"),
 ]
