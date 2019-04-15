@@ -146,3 +146,18 @@ class CommentDetailSerializers(ModelSerializer):
         if obj.is_parent:
             return obj.children().count()
         return 0
+
+
+class CommentEditSerializers(ModelSerializer):
+    author = SerializerMethodField()
+    class Meta:
+        model = Comment
+        fields = [
+            "id",
+            "content", 
+            "timestamp",
+            "author",
+        ]
+    
+    def get_author(self, obj):
+        return str(obj.author.username)
