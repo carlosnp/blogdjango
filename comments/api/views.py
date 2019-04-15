@@ -14,7 +14,7 @@ from rest_framework.mixins import UpdateModelMixin, DestroyModelMixin
 
 # Project
 from comments.models import Comment
-from .serializers import (CommentListSerializers, CommentDetailSerializers, CommentEditSerializers, 
+from .serializers import (CommentListSerializers, CommentDetailSerializers, #CommentEditSerializers, 
 						  create_commnet_serializers)
 from posts.api.permissions import IsOwnerOrReadOnly
 from posts.api.pagination import PostLimitOffsetPagination, PostPageNumberPagination
@@ -66,16 +66,17 @@ class CommentCreateAPIView(CreateAPIView):
 		serializer.save(author=self.request.user)
 
 # Retrieve Comment
-class CommentDetailAPIView(RetrieveAPIView):
-	queryset = Comment.objects.all()
-	serializer_class = CommentDetailSerializers
-	lookup_field = 'pk'
+#class CommentDetailAPIView(RetrieveAPIView)
+# 	queryset = Comment.objects.all()
+# 	serializer_class = CommentDetailSerializers
+# 	lookup_field = 'pk'
 
 
 # Update/Delete Comment
-class CommentEditAPIView(RetrieveAPIView, UpdateModelMixin, DestroyModelMixin):
+# class CommentEditAPIView
+class CommentDetailAPIView(RetrieveAPIView, UpdateModelMixin, DestroyModelMixin):
 	queryset = Comment.objects.filter(id__gte=0)
-	serializer_class = CommentEditSerializers
+	serializer_class = CommentDetailSerializers
 	permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
 	def put(self, request, *args, **kwargs):

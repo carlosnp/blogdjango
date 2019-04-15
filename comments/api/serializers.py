@@ -131,6 +131,13 @@ class CommentDetailSerializers(ModelSerializer):
             "reply_count", 
             "replies",
         ]
+        # Campos de solo lectura
+        read_only_fields = [
+            "content_type",
+            "object_id",
+            "reply_count",
+            "replies",
+        ]
     
     def get_author(self, obj):
         return str(obj.author.username)
@@ -148,16 +155,16 @@ class CommentDetailSerializers(ModelSerializer):
         return 0
 
 
-class CommentEditSerializers(ModelSerializer):
-    author = SerializerMethodField()
-    class Meta:
-        model = Comment
-        fields = [
-            "id",
-            "content", 
-            "timestamp",
-            "author",
-        ]
+# class CommentEditSerializers(ModelSerializer):
+#     author = SerializerMethodField()
+#     class Meta:
+#         model = Comment
+#         fields = [
+#             "id",
+#             "content", 
+#             "timestamp",
+#             "author",
+#         ]
     
-    def get_author(self, obj):
-        return str(obj.author.username)
+#     def get_author(self, obj):
+#         return str(obj.author.username)
