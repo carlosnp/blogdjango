@@ -21,7 +21,6 @@ def create_commnet_serializers(model_type='post', slug=None, parent_id=None, aut
             model = Comment
             fields = [
                     "id",
-                    "parent",
                     "content",
                     "timestamp",        
                     # "author"
@@ -47,30 +46,27 @@ def create_commnet_serializers(model_type='post', slug=None, parent_id=None, aut
             if not model_qs.exists() or model_qs.count() != 1:
                 raise ValidationError("No es un tipo de contenido valido")
             # Verificamos si existe SLUG en el modelo
-            Somemodel = model_qs.first().model_class()
-            obj_qs = Somemodel.objects.filter(slug=self.slug)
+            SomeModel = model_qs.first().model_class()
+            obj_qs = SomeModel.objects.filter(slug=self.slug)
             if not obj_qs.exists() or obj_qs.count() != 1:
                 raise ValidationError("No es un slug valido")
             # Retornamos la data
             return data
 
         # Metodo para crear el comentario
-        def create(sefl, validated_data):
+        def create(self, validated_data):
             # Debemos tener todos los campos que se definieron en la funcion
             content     = validated_data.get("content")
-            if user:
-                main_user = user
+            if author:
+                main_user = author
             else:
                 main_user = User.objects.all().first()
             model_type  = self.model_type
             slug        = self.slug
             parent_obj  = self.parent_obj
             comment     = Comment.objects.create_by_model_type(
-                                            model_type=model_type, 
-                                            slug = slug,
-                                            content = content,
-                                            author=main_user,
-                                            parent_obj= parent_obj)
+                            model_type, slug, content,
+                            main_user, parent_obj)
             # Regresamos el comentario
             return comment
     # Regresamos la clase
