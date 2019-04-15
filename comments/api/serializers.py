@@ -21,6 +21,7 @@ def create_commnet_serializers(model_type='post', slug=None, parent_id=None, aut
             model = Comment
             fields = [
                     "id",
+                    #"parent",
                     "content",
                     "timestamp",        
                     # "author"
@@ -66,7 +67,7 @@ def create_commnet_serializers(model_type='post', slug=None, parent_id=None, aut
             parent_obj  = self.parent_obj
             comment     = Comment.objects.create_by_model_type(
                             model_type, slug, content,
-                            main_user, parent_obj)
+                            main_user, parent_obj=parent_obj)
             # Regresamos el comentario
             return comment
     # Regresamos la clase
