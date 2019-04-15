@@ -9,10 +9,12 @@ from rest_framework.permissions import (AllowAny, IsAuthenticated, IsAdminUser, 
 from rest_framework.filters import (SearchFilter, OrderingFilter)
 # Paginacion Django Rest Framework
 from rest_framework.pagination import (LimitOffsetPagination, PageNumberPagination,)
+# Mixins
+from rest_framework.mixins import UpdateModelMixin, DestroyModelMixin
 
 # Project
 from comments.models import Comment
-from .serializers import (CommentListSerializers, CommentDetailSerializers, 
+from .serializers import (CommentListSerializers, CommentDetailSerializers, #CommentEditSerializers, 
 						  create_commnet_serializers)
 from posts.api.permissions import IsOwnerOrReadOnly
 from posts.api.pagination import PostLimitOffsetPagination, PostPageNumberPagination
@@ -28,7 +30,8 @@ class CommentListAPIView(ListAPIView):
 	pagination_class = PostPageNumberPagination
 
 	def get_queryset(self, *args, **kwargs):
-		queryset_list = Comment.objects.all()
+		#queryset_list = Comment.objects.all()
+		queryset_list = Comment.objects.filter(id__gte=0)
 		# queryset_list = super(PostListAPIView, self).get_queryset(*args, **kwargs)
 
 		# Buscar en la lista de POST
@@ -64,6 +67,24 @@ class CommentCreateAPIView(CreateAPIView):
 		serializer.save(author=self.request.user)
 
 # Retrieve Comment
-class CommentDetailAPIView(RetrieveAPIView):
-	queryset = Comment.objects.all()
+#class CommentDetailAPIView(RetrieveAPIView)
+# 	queryset = Comment.objects.all()
+# 	serializer_class = CommentDetailSerializers
+# 	lookup_field = 'pk'
+
+
+# Update/Delete Comment
+# class CommentEditAPIView
+class CommentDetailAPIView(RetrieveAPIView, UpdateModelMixin, DestroyModelMixin):
+	queryset = Comment.objects.filter(id__gte=0)
 	serializer_class = CommentDetailSerializers
+	permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+
+	def put(self, request, *args, **kwargs):
+		return self.update(request, *args, **kwargs)
+
+	def delete(self, request, *args, **kwargs):
+		return self.destroy(request, *args, **kwargs)
+
+	def perform_update(self, serializer):
+		serializer.save(author=self.request.user)

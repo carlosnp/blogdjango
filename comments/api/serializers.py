@@ -9,7 +9,8 @@ from rest_framework.serializers import (ModelSerializer,
 # Project
 from comments.models import Comment
 
-COMMENT_Detail_url = HyperlinkedIdentityField(view_name = 'comments_api:detail',lookup_field = 'pk')
+# URL detalles de comentarios
+COMMENT_Detail_url = HyperlinkedIdentityField(view_name = 'comments_api:detail')
 
 # Usuario
 User = get_user_model()
@@ -21,7 +22,7 @@ def create_commnet_serializers(model_type='post', slug=None, parent_id=None, aut
             model = Comment
             fields = [
                     "id",
-                    "parent",
+                    #"parent",
                     "content",
                     "timestamp",        
                     # "author"
@@ -47,51 +48,48 @@ def create_commnet_serializers(model_type='post', slug=None, parent_id=None, aut
             if not model_qs.exists() or model_qs.count() != 1:
                 raise ValidationError("No es un tipo de contenido valido")
             # Verificamos si existe SLUG en el modelo
-            Somemodel = model_qs.first().model_class()
-            obj_qs = Somemodel.objects.filter(slug=self.slug)
+            SomeModel = model_qs.first().model_class()
+            obj_qs = SomeModel.objects.filter(slug=self.slug)
             if not obj_qs.exists() or obj_qs.count() != 1:
                 raise ValidationError("No es un slug valido")
             # Retornamos la data
             return data
 
         # Metodo para crear el comentario
-        def create(sefl, validated_data):
+        def create(self, validated_data):
             # Debemos tener todos los campos que se definieron en la funcion
             content     = validated_data.get("content")
-            if user:
-                main_user = user
+            if author:
+                main_user = author
             else:
                 main_user = User.objects.all().first()
             model_type  = self.model_type
             slug        = self.slug
             parent_obj  = self.parent_obj
             comment     = Comment.objects.create_by_model_type(
-                                            model_type=model_type, 
-                                            slug = slug,
-                                            content = content,
-                                            author=main_user,
-                                            parent_obj= parent_obj)
+                            model_type, slug, content,
+                            main_user, parent_obj=parent_obj)
             # Regresamos el comentario
             return comment
     # Regresamos la clase
     return CommentCreateSerializer
 
 class CommentListSerializers(ModelSerializer):
-    #Detail_url = COMMENT_Detail_url
+    url = COMMENT_Detail_url
     author = SerializerMethodField()
     reply_count = SerializerMethodField()
     
     class Meta:
         model = Comment
         fields = [
-            #"Detail_url",
+            "url",
             "id",
             #"object_id",
             #"content_type",
             #"content_object",
             #"parent",
             "content", 
-            #"timestamp",
+            "timestamp",
             "reply_count", 
             "author"]
     
@@ -121,17 +119,26 @@ class CommentDetailSerializers(ModelSerializer):
     author = SerializerMethodField()
     replies = SerializerMethodField()
     reply_count = SerializerMethodField()
+    content_object_url = SerializerMethodField()
     class Meta:
         model = Comment
         fields = [
             "id",
-            "object_id",
-            "content_type",
+            #"object_id",
+            #"content_type",
             #"content_object",
             "content", 
             "timestamp",
             "author",
             "reply_count", 
+            "replies",
+            "content_object_url"
+        ]
+        # Campos de solo lectura
+        read_only_fields = [
+            #"content_type",
+            #"object_id",
+            "reply_count",
             "replies",
         ]
     
@@ -149,3 +156,24 @@ class CommentDetailSerializers(ModelSerializer):
         if obj.is_parent:
             return obj.children().count()
         return 0
+
+    # Url del comentario
+    def get_content_object_url(self, obj):
+        try:
+            return obj.content_object.get_api_url()
+        except:
+            return None
+
+# class CommentEditSerializers(ModelSerializer):
+#     author = SerializerMethodField()
+#     class Meta:
+#         model = Comment
+#         fields = [
+#             "id",
+#             "content", 
+#             "timestamp",
+#             "author",
+#         ]
+    
+#     def get_author(self, obj):
+#         return str(obj.author.username)

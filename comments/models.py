@@ -23,12 +23,14 @@ class CommentManager(models.Manager):
 		qs = super(CommentManager, self).filter(content_type = content_type, object_id = obj_id).filter(parent=None)
 		return qs
 	
-	def create_by_model_type(self, model_type, slug, content, user, parent_obj=None):
+	def create_by_model_type(self, model_type, slug, content, user, parent_obj=None, author=None):
 		model_qs = ContentType.objects.filter(model=model_type)
 		# Si existe el modelo
 		if model_qs.exists():
 			Somemodel = model_qs.first().model_class()
+			print(Somemodel)
 			obj_qs = Somemodel.objects.filter(slug=slug)
+			print(obj_qs)
 			# si existe el objeo y es igual a uno
 			if obj_qs.exists() and obj_qs.count() == 1:
 				# Para crear el comentario
@@ -37,6 +39,7 @@ class CommentManager(models.Manager):
 				instance.author 		= user
 				instance.content_type 	= model_qs.first()
 				instance.object_id 		= obj_qs.first().id
+				print(instance)
 				# Si un objeto padre
 				if parent_obj:
 					instance.parent = parent_obj
@@ -86,15 +89,19 @@ class Comment(models.Model):
 	
 	def __str__(self):
 		return str(self.author.username)
+	
 	# URL de los comentarios
 	def get_absolute_url(self):
 		return reverse("comments:detail", kwargs={"id":self.id})
+	
 	# URL para eliminar los comentarios	
 	def get_delete_url(self):	
 		return reverse("comments:delete", kwargs={"id":self.id})
+	
 	# Definimos los Hijos de los comentarios
 	def children(self):
 		return Comment.objects.filter(parent=self)
+	
 	# Verificamos si es el padre
 	@property
 	def is_parent(self):
