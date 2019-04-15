@@ -65,9 +65,14 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    # URL del post
     def get_absolute_url(self):
     	# return "/posts/%s/"%(self.id)
     	return reverse("posts:detail", kwargs={"id":self.id})
+    
+    # URL del post API REST
+    def get_api_url(self):
+        return reverse("posts_api:detail", kwargs={"pk":self.pk})
 
     def get_markdown(self):
         content = self.content

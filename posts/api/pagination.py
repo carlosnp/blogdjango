@@ -8,7 +8,7 @@ class PostLimitOffsetPagination(LimitOffsetPagination):
 	max_limit = 10 # límite máximo permitido que puede solicitar el cliente
 
 class PostPageNumberPagination(PageNumberPagination):
-	page_size = 2 #  indica el tamaño de la página
+	page_size = 5 #  indica el tamaño de la página
 	# page_query_param
 	# page_size_query_param
 	# max_page_size = 1000 # indica el tamaño de página máximo permitido permitido

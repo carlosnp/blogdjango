@@ -9,7 +9,8 @@ from rest_framework.serializers import (ModelSerializer,
 # Project
 from comments.models import Comment
 
-COMMENT_Detail_url = HyperlinkedIdentityField(view_name = 'comments_api:detail',lookup_field = 'pk')
+# URL detalles de comentarios
+COMMENT_Detail_url = HyperlinkedIdentityField(view_name = 'comments_api:detail')
 
 # Usuario
 User = get_user_model()
@@ -74,21 +75,21 @@ def create_commnet_serializers(model_type='post', slug=None, parent_id=None, aut
     return CommentCreateSerializer
 
 class CommentListSerializers(ModelSerializer):
-    #Detail_url = COMMENT_Detail_url
+    url = COMMENT_Detail_url
     author = SerializerMethodField()
     reply_count = SerializerMethodField()
     
     class Meta:
         model = Comment
         fields = [
-            #"Detail_url",
+            "url",
             "id",
             #"object_id",
             #"content_type",
             #"content_object",
             #"parent",
             "content", 
-            #"timestamp",
+            "timestamp",
             "reply_count", 
             "author"]
     
@@ -118,23 +119,25 @@ class CommentDetailSerializers(ModelSerializer):
     author = SerializerMethodField()
     replies = SerializerMethodField()
     reply_count = SerializerMethodField()
+    content_object_url = SerializerMethodField()
     class Meta:
         model = Comment
         fields = [
             "id",
-            "object_id",
-            "content_type",
+            #"object_id",
+            #"content_type",
             #"content_object",
             "content", 
             "timestamp",
             "author",
             "reply_count", 
             "replies",
+            "content_object_url"
         ]
         # Campos de solo lectura
         read_only_fields = [
-            "content_type",
-            "object_id",
+            #"content_type",
+            #"object_id",
             "reply_count",
             "replies",
         ]
@@ -154,6 +157,12 @@ class CommentDetailSerializers(ModelSerializer):
             return obj.children().count()
         return 0
 
+    # Url del comentario
+    def get_content_object_url(self, obj):
+        try:
+            return obj.content_object.get_api_url()
+        except:
+            return None
 
 # class CommentEditSerializers(ModelSerializer):
 #     author = SerializerMethodField()

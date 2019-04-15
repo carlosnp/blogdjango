@@ -30,7 +30,8 @@ class CommentListAPIView(ListAPIView):
 	pagination_class = PostPageNumberPagination
 
 	def get_queryset(self, *args, **kwargs):
-		queryset_list = Comment.objects.all()
+		#queryset_list = Comment.objects.all()
+		queryset_list = Comment.objects.filter(id__gte=0)
 		# queryset_list = super(PostListAPIView, self).get_queryset(*args, **kwargs)
 
 		# Buscar en la lista de POST
