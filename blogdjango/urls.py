@@ -27,6 +27,7 @@ urlpatterns = [
     path('comments/', include('comments.urls', namespace="comments")),
     path('api/comments/', include('comments.api.urls', namespace="comments_api")),
     path('accounts/', include('accounts.urls', namespace="accounts")),
+    path('api/accounts/', include('accounts.api.urls', namespace="accounts_api")),
     path('404/',  django.views.defaults.page_not_found, kwargs={'exception': Exception('Page Not Found!')},name='Error404'),
     path('500/',  django.views.defaults.server_error, name='Error500'),
 ]

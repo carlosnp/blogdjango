@@ -2,6 +2,18 @@
 
 {% block title %} {{block.super}} | Post Lists {% endblock %}
 
+<!-- Formulario de busqueda -->
+{% block post_list %}
+<form class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" type="text" placeholder="Buscar Post" 
+    class="form-control" name="q">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+        Buscar
+        <i class="fa fa-search" aria-hidden="true"></i>
+    </button>
+</form>
+{% endblock %}
+
 {% block content %}
 
 <!-- <a href="{% url 'posts:create' %}">Crear Post</a> -->
@@ -15,7 +27,7 @@
 			</a>
 		</h2>
 	</div>
-	{% if request.user.is_authenticated %}
+{% if request.user.is_authenticated %}
 	<div class="col-xs-5 btn-group" role="group">
 		<!-- crear un nuevo post -->
 		<a href="{% url 'posts:create' %}">
@@ -26,10 +38,8 @@
 			</button>
 		</a>
 	</div>
-	{% endif %}
 </div>
 <!-- Buscador -->
-{% comment "optional note" %}    
 <div class="row" style="margin: 0 5px;">
 	<form method="GET" action="">
 		<div class="input-group mb-2">
@@ -54,8 +64,10 @@
 		</div>
 	</form>
 </div>
+{% comment "optional note" %}    
 <br>
 {% endcomment %}
+{% endif %}
 
 <!-- Lista de Post -->
 {% for obj in object_list %}

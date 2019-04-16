@@ -16,6 +16,9 @@
                 <a class="nav-link" href="{% url 'comments_api:list' %}">Lista Rest Comments</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts_api:register' %}">Registro Rest</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{% url 'admin:index' %}">admin login</a>
             </li>
         </ul>
@@ -40,13 +43,7 @@
             </li>
             {% endif %}
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Buscar Post" 
-            class="form-control" name="q">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                Buscar
-                <i class="fa fa-search" aria-hidden="true"></i>
-            </button>
-        </form>
+        {% block post_list %}
+        {% endblock post_list %}
     </div>
 </nav>
