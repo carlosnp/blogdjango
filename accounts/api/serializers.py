@@ -62,6 +62,7 @@ class UserCreateSerializer(ModelSerializer):
 
 # Login User
 class UserLoginSerializer(ModelSerializer):
+	# Para verificar con un token al usuario
 	token	 = CharField(allow_blank=True, read_only=True)
 	username = CharField(label='Nombre de Usuario')	
 	email    = EmailField(label='Dirección de Correo Electrónico')
@@ -71,4 +72,7 @@ class UserLoginSerializer(ModelSerializer):
 			'username',
 			'email',
 			'password',
+			'token'
 		]
+		extra_kwargs = {"password": {"write_only": True}
+		}
