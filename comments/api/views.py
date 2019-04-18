@@ -28,6 +28,8 @@ class CommentListAPIView(ListAPIView):
 	ordering_fields = ('content')
 	# Paginación
 	pagination_class = PostPageNumberPagination
+	# Permisos
+	# permission_classes = (AllowAny)
 
 	def get_queryset(self, *args, **kwargs):
 		#queryset_list = Comment.objects.all()
@@ -79,6 +81,7 @@ class CommentDetailAPIView(RetrieveAPIView, UpdateModelMixin, DestroyModelMixin)
 	queryset = Comment.objects.filter(id__gte=0)
 	serializer_class = CommentDetailSerializers
 	permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+	# permission_classes = (IsOwnerOrReadOnly)
 
 	def put(self, request, *args, **kwargs):
 		return self.update(request, *args, **kwargs)
