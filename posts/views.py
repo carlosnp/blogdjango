@@ -135,7 +135,7 @@ def posts_list(request):
 			Q(author__first_name__icontains=query) |
 			Q(author__last_name__icontains=query))
 	# Paginacion
-	paginator = Paginator(queryset_list, 6)
+	paginator = Paginator(queryset_list, 5)
 	page_request_var = 'page'
 	page = request.GET.get(page_request_var)
 	#page = request.GET.get('page')

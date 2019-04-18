@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.generics import (ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, 
 									RetrieveUpdateAPIView, RetrieveDestroyAPIView)
 # Django Rest Framework Response
-from rest_framework.resonse import Response
+from rest_framework.response import Response
 # Django Rest Framework Status Codes
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 # Django Rest Framework Views

@@ -63,15 +63,16 @@
 		  	</div>
 		</div>
 	</form>
+{% endif %}
 </div>
 {% comment "optional note" %}    
 <br>
 {% endcomment %}
-{% endif %}
 
 <!-- Lista de Post -->
 {% for obj in object_list %}
 	<div class="row container-fluid" style="margin: 10px auto; display: flex; align-items: center; position: relative; width: 80%;">
+		<!-- Imagen -->
 		<div class="col-xs-6">
 			<div class="card" style="max-width:400px; width:350px;">
 				{% if obj.image %}
@@ -79,12 +80,19 @@
 				{% endif %}
 			</div>
 		</div>
+		<!-- Contenido del post -->
 		<div class="col-xs-6">
 			<div class="card" style="width:600px;">
 				<div class="card-body">
 					<!-- <h2>  <a href="/posts/{{obj.id}}">  {{ obj.title }} </a> </h2> -->
 					<!-- <h2>  <a href="{% url 'posts:detail' id=obj.id %}">  {{ obj.title }} </a> </h2> -->
-					<h3 class="card-title">  {{ obj.title|upper }} <small style="color:lightslategrey"> {{ obj.publish|date:"D d M Y" }} </small> </h3>
+
+					<!-- Titulo -->
+					<h3 class="card-title">  
+						{{ obj.title|upper }} 
+						<small style="color:lightslategrey"> {{ obj.publish|date:"D d M Y" }} </small> 
+					</h3>
+
 					{% comment %}
 					<div class="content-markdown"> {{ obj.content|truncatechars:150 }} </div>
 
@@ -92,6 +100,8 @@
 					https://docs.djangoproject.com/en/2.1/ref/templates/builtins/
 					
 					{% endcomment %}
+					
+					<!-- Contenido del post -->
 					<div class="content-markdown"> {{ obj.get_markdown|truncatewords_html:10 }} </div>
 					<!-- Si es un borrador -->
 					{% if obj.draf %}
@@ -108,7 +118,9 @@
 							</small>
 						</p>    
 					{% endif %}
+					<!-- Autor del post -->
 					<h5> {{ obj.author }} </h5>
+					<!-- Ver mas -->
 					<p> <a href="{{ obj.get_absolute_url }}" class="card-link" role="button">Ver</a> </p>
 				</div>
 			</div>
@@ -118,8 +130,10 @@
 {% endfor %}
 	<hr>
 	<!-- Paginacion -->
+	<div class="container-fluid">
+		
 	<div class="pagination">
-		<span class="step-links">
+		<span class="step-links" style="margin: 0 auto;">
 			{% if object_list.has_previous %}
 			<!-- <a href="?page=1">&laquo; primero</a> -->
 			<a href="?page={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">anterior</a>
@@ -134,6 +148,8 @@
 			<!-- <a href="?page={{ object_list.paginator.num_pages }}">último &raquo;</a> -->
 			{% endif %}
 		</span>
+	</div>
+
 	</div>
 	<hr>
 
