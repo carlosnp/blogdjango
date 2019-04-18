@@ -8,6 +8,7 @@ from rest_framework.serializers import (ModelSerializer,
                                         ValidationError)
 # Project
 from comments.models import Comment
+from accounts.api.serializers import UserDetailSerializer
 
 # URL detalles de comentarios
 COMMENT_Detail_url = HyperlinkedIdentityField(view_name = 'comments_api:detail')
@@ -103,7 +104,7 @@ class CommentListSerializers(ModelSerializer):
         return str(obj.author.username)
 
 class CommentChildSerializers(ModelSerializer):
-    author = SerializerMethodField()
+    author = UserDetailSerializer(read_only=True)
     class Meta:
         model = Comment
         fields = [
@@ -116,7 +117,7 @@ class CommentChildSerializers(ModelSerializer):
         return str(obj.author.username)
 
 class CommentDetailSerializers(ModelSerializer):
-    author = SerializerMethodField()
+    author = UserDetailSerializer(read_only=True)
     replies = SerializerMethodField()
     reply_count = SerializerMethodField()
     content_object_url = SerializerMethodField()

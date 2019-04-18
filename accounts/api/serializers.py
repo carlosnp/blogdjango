@@ -17,6 +17,17 @@ from rest_framework.serializers import (# Serializer
 # Usuario
 User = get_user_model()
 
+# Detail User
+class UserDetailSerializer(ModelSerializer):
+	class Meta:
+		model = User
+		fields = [
+			'username',
+			'first_name',
+			'last_name',
+			'email',
+		]
+
 # Create User
 class UserCreateSerializer(ModelSerializer):
 	email = EmailField(label='Dirección de Correo Electrónico')

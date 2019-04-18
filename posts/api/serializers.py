@@ -6,6 +6,7 @@ from rest_framework.serializers import (ModelSerializer,
 from posts.models import Post
 from comments.models import Comment
 from comments.api.serializers import CommentListSerializers
+from accounts.api.serializers import UserDetailSerializer
 
 POST_Detail_url = HyperlinkedIdentityField(view_name = 'posts_api:detail',lookup_field = 'pk')
 POST_Delete_url = HyperlinkedIdentityField(view_name = 'posts_api:delete',lookup_field = 'pk')
@@ -13,7 +14,7 @@ POST_Edit_url   = HyperlinkedIdentityField(view_name = 'posts_api:update',lookup
 
 class PostListSerializers(ModelSerializer):
     Detail_url = POST_Detail_url
-    author = SerializerMethodField()
+    author = UserDetailSerializer(read_only=True)
     class Meta:
         model = Post
         fields = ["Detail_url", "title", "content", "image", "draf", "publish","author"]
@@ -25,7 +26,7 @@ class PostDetailSerializers(ModelSerializer):
     Detail_url  = POST_Detail_url
     Delete_url  = POST_Delete_url
     Edit_url    = POST_Edit_url
-    author      = SerializerMethodField()
+    author      = UserDetailSerializer(read_only=True)
     image       = SerializerMethodField()
     html        = SerializerMethodField()
     comments    = SerializerMethodField()
