@@ -21,6 +21,12 @@ def loginView(request):
 		login(request, user)
 		if next:
 			return redirect(next)
+		if request.user.is_active and not request.user.is_staff and not request.user.is_superuser:
+			messages.success(request, "Bienvenido!! %s" % request.user)
+		if request.user.is_active and request.user.is_staff and not request.user.is_superuser:
+			messages.success(request, "Bienvenido!! STAFF %s" % request.user)
+		if request.user.is_active and request.user.is_staff and request.user.is_superuser:
+			messages.success(request, "Bienvenido!! SUPERUSUARIO %s" % request.user)
 		return redirect("posts:list")
 	# Context Data
 	context = {
