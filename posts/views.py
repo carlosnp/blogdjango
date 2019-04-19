@@ -33,7 +33,10 @@ def posts_create(request):
 		instance.author = request.user
 		instance.save()
 		messages.success(request, "Felicidades!!! creaste el POST: %s" % instance.title)
-		return HttpResponseRedirect(instance.get_absolute_url())
+		try:
+			return HttpResponseRedirect(instance.get_absolute_url())
+		except:
+			return redirect("posts:list")
 	context = {
 		"title": "Create Post",
 		"titles": "Crear Post",
@@ -58,11 +61,17 @@ def posts_detail(request, id):
 	
 	# permite ver los post que son borradores y su fecha de publicacion es mayor a la actual
 	if instance.draf or instance.publish > timezone.now().date():
-		if not request.user.is_staff or not request.user.is_superuser:
-			#raise Http40
-			template_names 	= "404.html"
-			contextdata = {}
-			return render(request, template_names, contextdata, status = 404)
+		if (instance.author != request.user and not request.user.is_superuser and not request.user.is_staff):
+			template_names	= "403.html"
+			detail_comment	= "Opsss!!!"
+			content_text 	= instance.title
+			contextdata 	= {
+				"detail_comment": detail_comment,
+				"userlogin": request.user,
+				"content_text": content_text,
+				"seeall": True,
+			}
+			return render(request, template_names, contextdata, status = 403)
 	
 	share_string = quote_plus(instance.content)
 	
@@ -150,6 +159,40 @@ def posts_list(request):
 	
 	context = {
 		"title": "Lista de Post",
+		"object_list": queryset,
+		"page_request_var": page_request_var,
+		"today": today,
+	}	
+	return render(request, template_name, context)
+
+@login_required(login_url='accounts:login')
+def posts_list_user(request):
+	template_name = 'post_list_user.html'
+	today = timezone.now().date()
+	queryset_list = Post.objects.filter(author=request.user)
+	# Buscar en la lista de POST
+	query = request.GET.get("q")
+	if query:
+		# Filtro de busqueda
+		queryset_list = queryset_list.filter(
+			Q(title__icontains=query) |
+			Q(content__icontains=query)
+			)
+	# Paginacion
+	paginator = Paginator(queryset_list, 5)
+	page_request_var = 'page'
+	page = request.GET.get(page_request_var)
+	#page = request.GET.get('page')
+	
+	try:
+		queryset = paginator.page(page)
+	except PageNotAnInteger:
+		queryset = paginator.page(1)
+	except EmptyPage:
+		queryset = paginator.page(paginator.num_pages)
+	
+	context = {
+		"title": "Mis Post",
 		"object_list": queryset,
 		"page_request_var": page_request_var,
 		"today": today,

@@ -51,6 +51,7 @@ def registerView(request):
 		login(request, new_user)
 		if next:
 			return redirect(next)
+		messages.success(request, "Bienvenido a nuestro BLOG %s Gracias por preferirnos." % request.user)
 		return redirect("posts:list")
 	# Context Data
 	context = {
@@ -63,4 +64,5 @@ def logoutView(request):
 	#template_name = "/"
 	#context = {}
 	logout(request)
+	messages.success(request, "Hasta luego, vuelve a visitarnos!")
 	return redirect("posts:list")

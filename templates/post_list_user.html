@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %} {{block.super}} | Post Lists User {% endblock %}
+
+<!-- Formulario de busqueda -->
+{% block post_list %}
+<form class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" type="text" placeholder="Buscar Post" 
+    class="form-control" name="q">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+        Buscar
+        <i class="fa fa-search" aria-hidden="true"></i>
+    </button>
+</form>
+{% endblock %}
+
+{% block content %}
+
+<!-- <a href="{% url 'posts:create' %}">Crear Post</a> -->
+<!-- Encabezado -->
+<div class="row">
+	<div class="col-xs-7">
+		<h2 class="title-post"> 
+			<a href="{% url 'posts:list' %}" 
+			style="color: white; text-decoration:None"> 
+				{{ title }} 
+			</a>
+		</h2>
+	</div>
+{% if request.user.is_authenticated %}
+	<div class="col-xs-5 btn-group" role="group">
+		<!-- crear un nuevo post -->
+		<a href="{% url 'posts:create' %}">
+			<button class="btn-post" type="button" 
+			data-toggle="tooltip" 
+			data-placement="bottom" title="Crear">
+				<i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
+			</button>
+		</a>
+	</div>
+</div>
+<!-- Buscador -->
+<div class="row" style="margin: 0 5px;">
+	<form method="GET" action="">
+		<div class="input-group mb-2">
+			<input type="text" placeholder="Buscar Post" 
+			class="form-control" name="q">
+		  	<div class="input-group-append">
+			  	<button 
+			  	class="input-group-text"
+			  	type="submit"
+			  	style="width:127px; text-align:center;">
+			  	<p style="margin: 0 15px; padding: 0;"> Buscar </p>
+			  		<i class="fa fa-search" 
+			  		aria-hidden="true"></i>
+			  	</button>
+		  	</div>
+		</div>
+	</form>
+{% endif %}
+</div>
+
+
+<!-- Lista de Post -->
+{% for obj in object_list %}
+	<div class="row container-fluid" style="margin: 10px auto; display: flex; align-items: center; position: relative; width: 80%;">
+		<!-- Imagen -->
+		<div class="col-xs-6">
+			<div class="card" style="max-width:400px; width:350px;">
+				{% if obj.image %}
+					<img src="{{ obj.image.url }}" alt="Card image cap" class="img-thumbnail">
+				{% endif %}
+			</div>
+		</div>
+		<!-- Contenido del post -->
+		<div class="col-xs-6">
+			<div class="card" style="width:600px;">
+				<div class="card-body">
+					<!-- <h2>  <a href="/posts/{{obj.id}}">  {{ obj.title }} </a> </h2> -->
+					<!-- <h2>  <a href="{% url 'posts:detail' id=obj.id %}">  {{ obj.title }} </a> </h2> -->
+
+					<!-- Titulo -->
+					<h3 class="card-title">  
+						{{ obj.title|upper }} 
+						<small style="color:lightslategrey"> {{ obj.publish|date:"D d M Y" }} </small> 
+					</h3>
+
+					{% comment %}
+					<div class="content-markdown"> {{ obj.content|truncatechars:150 }} </div>
+
+					ver 
+					https://docs.djangoproject.com/en/2.1/ref/templates/builtins/
+					
+					{% endcomment %}
+					
+					<!-- Contenido del post -->
+					<div class="content-markdown"> {{ obj.get_markdown|truncatewords_html:10 }} </div>
+					<!-- Si es un borrador -->
+					{% if obj.draf %}
+						<p class="card-text">
+							<small class="text-muted">  
+								<span style="color:red;"> 
+									Borrador
+								</span>
+								<br>
+								<!-- Si la fecha de publicacion es mayor a la actual -->
+								{% if obj.publish > today %}
+									<span> Será publicado el {{ obj.publish }} </span>
+								{% endif %}
+							</small>
+						</p>    
+					{% endif %}
+					<!-- Autor del post -->
+					<h5> {{ obj.author }} </h5>
+					<!-- Ver mas -->
+					<p> <a href="{{ obj.get_absolute_url }}" class="card-link" role="button">Ver</a> </p>
+				</div>
+			</div>
+		</div>
+		<hr>
+	</div>
+{% endfor %}
+	<hr>
+	<!-- Paginacion -->
+	<div class="container-fluid">
+		
+	<div class="pagination">
+		<span class="step-links" style="margin: 0 auto;">
+			{% if object_list.has_previous %}
+			<!-- <a href="?page=1">&laquo; primero</a> -->
+			<a href="?page={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">anterior</a>
+			{% endif %}
+			
+			<span class="current">
+				Página {{ object_list.number }} de {{ object_list.paginator.num_pages }}.
+			</span>
+			
+			{% if object_list.has_next %}
+			<a href="?page={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">siguiente</a>
+			<!-- <a href="?page={{ object_list.paginator.num_pages }}">último &raquo;</a> -->
+			{% endif %}
+		</span>
+	</div>
+
+	</div>
+	<hr>
+
+{% endblock %}
+
+<script>
+	{% block script %}
+	{% endblock script %}
+</script>

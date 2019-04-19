@@ -31,16 +31,18 @@
 					<i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
 				</button>
 			</a>
-			<!-- Editar el post -->
-			<a href="{% url 'posts:update' id=instance.id %}">
-				<button class="btn-post" type="button" data-toggle="tooltip" data-placement="bottom" title="Editar">
-					<i class="fa fa-newspaper-o fa-2x" aria-hidden="true"></i>
+				{% if request.user == instance.author %}
+				<!-- Editar el post -->
+				<a href="{% url 'posts:update' id=instance.id %}">
+					<button class="btn-post" type="button" data-toggle="tooltip" data-placement="bottom" title="Editar">
+						<i class="fa fa-newspaper-o fa-2x" aria-hidden="true"></i>
+					</button>
+				</a>
+				<!-- Eliminar el post -->
+				<button class="btn-post" type="button" data-toggle="modal" data-target="#ModalButtonDelete" data-placement="bottom" title="Eliminar">
+					<i class="fa fa-trash fa-2x" aria-hidden="true"></i>
 				</button>
-			</a>
-			<!-- Eliminar el post -->
-			<button class="btn-post" type="button" data-toggle="modal" data-target="#ModalButtonDelete" data-placement="bottom" title="Eliminar">
-				<i class="fa fa-trash fa-2x" aria-hidden="true"></i>
-			</button>
+				{% endif %}
 			{% endif %}
 		</div>
 		<!-- End Buttons -->

@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" style="padding: 9px 15px;line-height: 20px;font-size: 22px;" href="{% url 'posts:list' %}">Lista</a>
+                <a class="nav-link" style="padding: 9px 15px;line-height: 20px;font-size: 22px;" href="{% url 'posts:list' %}">Home</a>
             </li>
             {% if request.user.is_staff %}
             <li class="nav-item">
@@ -43,7 +43,8 @@
             <!-- Si el usuario esta autenticado -->
             {% else %}
             <li class="nav-item">
-                <a class="btn btn-outline-success" href="#">
+                <a class="btn btn-outline-success" href="{% url 'posts:list_user' %}" 
+                data-toggle="tooltip" data-placement="bottom" title="Mis Post">
                     {{ request.user|upper }}
                     {% if request.user.is_active %}
                         <span> <small> -activo </small> </span>

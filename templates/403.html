@@ -31,8 +31,20 @@
     				No lo puedes Eliminar 
     			</p>
     		{% endif %}
+            {% if seeall %}  
+                <p style="font-size: 2vw; color: grey;">
+                    No creaste
+                    <b style="color: blue;"> 
+                        <small> "{{ content_text }}" </small>
+                    </b>
+                </p>
+                <p style="font-size: 2vw; color: grey;">
+                    No Tienes permiso para ver este post 
+                </p>
+            {% endif %}
     	{% else %}
     		<p style="font-size: 2vw;">No Tienes los permisos necesarios!!!</p>
     	{% endif %}
+        <a href="{% url 'posts:list' %}">Volver al inicio</a>
 	</div>
 {% endblock content %}
