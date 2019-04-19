@@ -9,6 +9,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'posts:list' %}">Lista</a>
             </li>
+            {% if request.user.is_staff %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'admin:index' %}">admin login</a>
             </li>
@@ -19,10 +20,13 @@
                         <a class="nav-link" style="color:#007bff;" href="{% url 'posts_api:create' %}">Create Post</a>
                         <a class="nav-link" style="color:#007bff;" href="{% url 'comments_api:list' %}">Comments List</a>
                         <a class="nav-link" style="color:#007bff;" href="{% url 'comments_api:create' %}">Create Comments</a>
-                        <a class="nav-link" style="color:#007bff;" href="{% url 'accounts_api:register' %}">Registro de Usuarios</a>
                         <a class="nav-link" style="color:#007bff;" href="{% url 'accounts_api:login' %}">Iniciar Sesión</a>
+                        {% if request.user.is_superuser %}
+                            <a class="nav-link" style="color:#007bff;" href="{% url 'accounts_api:register' %}">Registro de Usuarios</a>
+                        {% endif %}
                 </div>
             </li>
+            {% endif %}
         </ul>
 
         <ul class="navbar-nav mr-auto">
@@ -39,7 +43,18 @@
             <!-- Si el usuario esta autenticado -->
             {% else %}
             <li class="nav-item">
-                <a class="btn btn-outline-success" href="#"> {{ request.user|upper }} </a>
+                <a class="btn btn-outline-success" href="#">
+                    {{ request.user|upper }}
+                    {% if request.user.is_active %}
+                        <span> <small> -activo </small> </span>
+                    {% endif %}
+                    {% if request.user.is_staff %}
+                        <span> <small style="color:#00ffff;"> -staff </small> </span>
+                    {% endif %}
+                    {% if request.user.is_superuser %}
+                        <span> <small style="color:#007bff;"> -superuser </small> </span>
+                    {% endif %}
+                </a>
             </li>
             <li class="nav-item">
                 <a class="btn btn-outline-success" href="{% url 'accounts:logout' %}">Cerrar Sesión</a>
