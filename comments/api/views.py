@@ -29,7 +29,7 @@ class CommentListAPIView(ListAPIView):
 	# Paginación
 	pagination_class = PostPageNumberPagination
 	# Permisos
-	# permission_classes = (AllowAny)
+	# permission_classes = (AllowAny,)
 
 	def get_queryset(self, *args, **kwargs):
 		#queryset_list = Comment.objects.all()

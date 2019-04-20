@@ -25,6 +25,7 @@ class PostListAPIView(ListAPIView):
 	ordering_fields = ('title', 'content')
 	# Paginación
 	pagination_class = PostPageNumberPagination
+	# permission_classes = (AllowAny)
 
 	def get_queryset(self, *args, **kwargs):
 		queryset_list = Post.objects.all()
@@ -61,6 +62,10 @@ class PostDetailAPIView(RetrieveAPIView):
 	serializer_class = PostDetailSerializers
 	#lookup_field = 'slug'
 	#lookup_url_kwarg = 'abc'
+	# permission_classes = (AllowAny)
+	
+	def get_serializer_context(self):
+		return {'request': self.request}
 
 # Update post
 class PostUpdateAPIView(RetrieveUpdateAPIView):
@@ -68,6 +73,7 @@ class PostUpdateAPIView(RetrieveUpdateAPIView):
 	serializer_class = PostCreateUpdateSerializers
 	#lookup_field = 'slug'
 	permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+	# permission_classes = (IsOwnerOrReadOnly)
 
 	# Se coloca de autor al usuario que inicie sesion
 	def perform_update(self, serializer):
@@ -79,3 +85,4 @@ class PostDeleteAPIView(RetrieveDestroyAPIView):
 	serializer_class = PostDetailSerializers
 	#lookup_field = 'slug'
 	permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+	# permission_classes = (IsOwnerOrReadOnly)

@@ -38,7 +38,7 @@ class PostDetailSerializers(ModelSerializer):
                   "image", "draf", "timestamp", "publish", 
                   "updated", "read_time","author", "comments"]
     
-    # Para usar la app markdown delcarada en el modelo
+    # Para usar la app markdown declarada en el modelo
     def get_html(self, obj):
         return obj.get_markdown()
     
@@ -55,14 +55,11 @@ class PostDetailSerializers(ModelSerializer):
         
         return image
     
+    # Para obtener los comentarios del post
     def get_comments(self, obj):
-        #content_type    = obj.get_content_type
-        #object_id       = obj.id
         commnets_qs     = Comment.objects.filter_by_instance(obj)
         comments        = CommentListSerializers(commnets_qs, many=True).data
         return comments
-
-        pass
 
 class PostCreateUpdateSerializers(ModelSerializer):
     author = SerializerMethodField()
