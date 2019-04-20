@@ -157,15 +157,24 @@ else:
 
 # REST FRAMEWORK
 REST_FRAMEWORK = {
+    # Conjunto predeterminado de renderizadores 
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+    # Conjunto predeterminado de analizadores
     # 'DEFAULT_PARSER_CLASSES': (
     #     'rest_framework.parsers.JSONParser',
     # ),
+    # Conjunto predeterminado de permisos verificados al inicio de una vista.
+    # El permiso debe ser otorgado por cada clase en la lista.
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    # Conjunto predeterminado de autenticadores
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication'
     ),
-    'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.AllowAny',
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-    ]
 }
