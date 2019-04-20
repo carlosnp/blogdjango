@@ -6,14 +6,18 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
+            
             <li class="nav-item active">
                 <a class="nav-link" style="padding: 9px 15px;line-height: 20px;font-size: 22px;" href="{% url 'posts:list' %}">Home</a>
             </li>
+
             {% if request.user.is_staff %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'admin:index' %}">admin login</a>
             </li>
             {% endif %}
+
+            {% if request.user.is_authenticated %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Servicios REST framework</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -29,6 +33,7 @@
                     {% endif %}
                 </div>
             </li>
+            {% endif %}
         </ul>
 
         <ul class="navbar-nav mr-auto">
