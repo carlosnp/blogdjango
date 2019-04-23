@@ -34,7 +34,7 @@ class UserCreateApyView(CreateAPIView):
 	queryset = User.objects.all()
 	# permission_classes = (AllowAny,)
 
-# View Create User
+# View login User
 class UserLoginApyView(APIView):
 	#queryset = User.objects.all()
 	permission_classes = (AllowAny,)

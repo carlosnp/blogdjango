@@ -62,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware' , 
 ]
 
 LOGIN_URL = "accounts/login"
@@ -180,6 +181,12 @@ REST_FRAMEWORK = {
 }
 
 # sessions
-SESSION_COOKIE_AGE = 60*10
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_SAVE_EVERY_REQUEST = True
+# SESSION_COOKIE_AGE = 20
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# SESSION_SAVE_EVERY_REQUEST = True
+
+# django-session-timeout
+# Middleware para expirar sesiones después de una cantidad específica de tiempo
+SESSION_EXPIRE_SECONDS  =  60*20   # 1 hora
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY  =  True
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY_GRACE_PERIOD  =  5  # agrupar por minuto
